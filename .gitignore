@@ -1,9 +1,15 @@
-*.class
-
-# Mobile Tools for Java (J2ME)
+*.iml
+.classpath
+.settings
+.project
+.idea
+*/target
+*/**/node_modules
+*/.vertx
+*/**/webroot
+*/etc
+*/node
 .mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.ear
