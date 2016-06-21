@@ -13,4 +13,12 @@ public interface PlayerInterface {
     public Integer getId();
 
     public void setId(Integer id);
+
+    public Integer getLosses();
+
+    public void setLosses(Integer losses);
+
+    public Integer getWins();
+
+    public void setWins(Integer wins);
 }

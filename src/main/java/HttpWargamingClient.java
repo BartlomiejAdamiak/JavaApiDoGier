@@ -44,11 +44,20 @@ public class HttpWargamingClient implements HttpClientInterface {
         return response;
     }
 
-    public WorldOfTanksPlayer getStatistics(String name){
-        WorldOfTanksPlayer  player = new WorldOfTanksPlayer();
-        player.setName(name);
-        player.setId(getId(name));
-        player.setKills(getKills(player.getId()));
+    public WorldOfTanksPlayer findPlayerByName(String name){
+        WorldOfTanksPlayer player = new WorldOfTanksPlayer(name);
+        player = getStatistics(player);
+
+        return player;
+    }
+
+    private WorldOfTanksPlayer getStatistics(WorldOfTanksPlayer player){
+        Integer id = getId(player.getName());
+        player.setId(id);
+        JSONObject statistics = getJSONStatisticsOfPlayerById(id);
+        player.setKills(getKills(statistics));
+        player.setWins(getWins(statistics));
+        player.setLosses(getLosses(statistics));
 
         return player;
     }
@@ -71,7 +80,7 @@ public class HttpWargamingClient implements HttpClientInterface {
         return Integer.parseInt(firstObjectOfArray.get("account_id").toString());
     }
 
-    public Integer getKills(Integer id) {
+    public JSONObject getJSONStatisticsOfPlayerById(Integer id){
         String url = "https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=" + id.toString();
         String response = new String();
         try{
@@ -80,7 +89,7 @@ public class HttpWargamingClient implements HttpClientInterface {
         catch(Exception e){
             e.printStackTrace();
         }
-        if(response.equals("Response failed")) return 0;
+        if(response.equals("Response failed")) return null;
         JSONParser parser = new JSONParser();
         JSONObject obj = new JSONObject();
         try {
@@ -93,7 +102,19 @@ public class HttpWargamingClient implements HttpClientInterface {
         JSONObject statistics = (JSONObject) idValue.get("statistics");
         JSONObject all = (JSONObject) statistics.get("all");
 
-        return Integer.parseInt(all.get("frags").toString());
+        return all;
+    }
+
+    public Integer getKills(JSONObject statistics) {
+        return Integer.parseInt(statistics.get("frags").toString());
+    }
+
+    public Integer getWins(JSONObject statistics){
+        return Integer.parseInt(statistics.get("wins").toString());
+    }
+
+    public Integer getLosses(JSONObject statistics){
+        return Integer.parseInt(statistics.get("losses").toString());
     }
 
     private JSONObject parseToJSONObject(String stringToParse){
