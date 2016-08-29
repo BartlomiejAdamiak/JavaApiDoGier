@@ -26,8 +26,8 @@ public class TestHttpWargamingClient {
 //        statistics.put("frags",67);
 //        statistics.put("wins",86);
 //        statistics.put("losses",94);
-//        //HttpWargamingClient wot = new HttpWargamingClient("kaimada");
-//        HttpWargamingClient c = mock(HttpWargamingClient.class);
+//        //pl.HttpWargamingClient wot = new pl.HttpWargamingClient("kaimada");
+//        pl.HttpWargamingClient c = mock(pl.HttpWargamingClient.class);
 //        when(c.getJSONStatisticsOfPlayerById(anyInt())).thenReturn(statistics);
 //        when(c.getStatistics(anyObject())).thenCallRealMethod();
 //        when(c.findPlayer(anyString(),anyString())).thenCallRealMethod();
@@ -37,11 +37,11 @@ public class TestHttpWargamingClient {
 //        when(c.getKills(any(JSONObject.class))).thenCallRealMethod();
 //        when(c.getWins(any(JSONObject.class))).thenCallRealMethod();
 //        when(c.getLosses(any(JSONObject.class))).thenCallRealMethod();
-//        //c.player = mock(WorldOfTanksPlayer.class);
+//        //c.player = mock(pl.players.WorldOfTanksPlayer.class);
 //        c.findPlayerByName("kaimada");
 //        System.out.println(c.player);
 //
-//        PlayerInterface player = c.player;
+//        pl.players.PlayerInterface player = c.player;
 //        assertEquals(player.getId(),(Integer) 502346805);
 //        assertEquals(player.getName(),(String) "kaimada");
 //        assertEquals(player.getKills(),(Integer) 67);

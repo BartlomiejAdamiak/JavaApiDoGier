@@ -1,26 +1,36 @@
-/**
+package pl; /**
  * Created by kaima_000 on 2016-06-09.
  */
+import pl.model.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HttpWargamingClient extends HttpClient{
 
-    WorldOfTanksPlayer player;
+    final static Logger logger = Logger.getLogger(HttpWargamingClient.class);
+
+
+    @Autowired
+    Player player;
     public HttpWargamingClient(String playerName) {
         findPlayerByName(playerName);
     }
 
-    public WorldOfTanksPlayer findPlayerByName(String name){
-        player = new WorldOfTanksPlayer(name);
+
+    public Player findPlayerByName(String name){
+        player = new Player(name);
         player = getStatistics(player);
 
         return player;
     }
 
-    protected WorldOfTanksPlayer getStatistics(WorldOfTanksPlayer player){
+    protected Player getStatistics(Player player){
         Integer id = getId(player.getName());
         player.setId(id);
         JSONObject statistics = getJSONStatisticsOfPlayerById(id);

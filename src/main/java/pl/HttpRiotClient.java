@@ -1,26 +1,35 @@
+package pl;
+
+import pl.model.Player;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by kaima_000 on 2016-08-29.
  */
 public class HttpRiotClient extends HttpClient{
 
-    LeagueOfLegendsPlayer player = null;
+    final static Logger logger = Logger.getLogger(HttpRiotClient.class);
+
+    @Autowired
+    Player player;
+
     public HttpRiotClient(String playerName) {
         findPlayerByName(playerName);
     }
 
-    public LeagueOfLegendsPlayer findPlayerByName(String name){
-        player = new LeagueOfLegendsPlayer(name);
+    public Player findPlayerByName(String name){
+        player = new Player(name);
         player = getStatistics(player);
 
         return player;
     }
 
-    private LeagueOfLegendsPlayer getStatistics(LeagueOfLegendsPlayer player){
+    private Player getStatistics(Player player){
         Integer id = getId(player.getName());
         player.setId(id);
         JSONObject statistics = getJSONStatisticsOfPlayerById(id);
