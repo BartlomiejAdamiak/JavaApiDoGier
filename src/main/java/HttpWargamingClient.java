@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 
 public class HttpWargamingClient extends HttpClient{
 
-    WorldOfTanksPlayer player = null;
+    WorldOfTanksPlayer player;
     public HttpWargamingClient(String playerName) {
         findPlayerByName(playerName);
     }
@@ -20,7 +20,7 @@ public class HttpWargamingClient extends HttpClient{
         return player;
     }
 
-    private WorldOfTanksPlayer getStatistics(WorldOfTanksPlayer player){
+    protected WorldOfTanksPlayer getStatistics(WorldOfTanksPlayer player){
         Integer id = getId(player.getName());
         player.setId(id);
         JSONObject statistics = getJSONStatisticsOfPlayerById(id);
@@ -31,7 +31,7 @@ public class HttpWargamingClient extends HttpClient{
         return player;
     }
 
-    private Integer getId(String name){
+    protected Integer getId(String name){
         String url = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search="+ name +"&limit=1";
         String response = new String();
         try{
