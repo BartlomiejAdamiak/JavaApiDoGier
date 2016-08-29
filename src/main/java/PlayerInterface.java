@@ -2,23 +2,29 @@
  * Created by kaima_000 on 2016-06-09.
  */
 public interface PlayerInterface {
-    public String getName();
+    Integer id = 0;
+    String name = "";
+    Integer kills = 0;
+    Integer wins = 0;
+    Integer losses = 0;
 
-    public void setName(String name);
+    String getName();
 
-    public Integer getKills();
+    void setName(String name);
 
-    public void setKills(Integer kills);
+    Integer getKills();
 
-    public Integer getId();
+    void setKills(Integer kills);
 
-    public void setId(Integer id);
+    Integer getId();
 
-    public Integer getLosses();
+    void setId(Integer id);
 
-    public void setLosses(Integer losses);
+    Integer getLosses();
 
-    public Integer getWins();
+    void setLosses(Integer losses);
 
-    public void setWins(Integer wins);
+    Integer getWins();
+
+    void setWins(Integer wins);
 }

@@ -1,6 +1,6 @@
 /**
- * Created by kaima_000 on 2016-06-09.
+ * Created by kaima_000 on 2016-08-29.
  */
 public interface HttpClientInterface {
-    public WorldOfTanksPlayer findPlayerByName(String name);
+    PlayerInterface findPlayer(String gameName,String playerName);
 }

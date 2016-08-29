@@ -1,7 +1,7 @@
 /**
- * Created by kaima_000 on 2016-06-09.
+ * Created by kaima_000 on 2016-08-29.
  */
-public class WorldOfTanksPlayer implements PlayerInterface {
+public class LeagueOfLegendsPlayer implements PlayerInterface{
     Integer id = 0;
     String name = "";
     Integer kills = 0;
@@ -25,7 +25,7 @@ public class WorldOfTanksPlayer implements PlayerInterface {
         this.wins = wins;
     }
 
-    public WorldOfTanksPlayer(String name){
+    public LeagueOfLegendsPlayer(String name){
         this.setName(name);
     }
 
