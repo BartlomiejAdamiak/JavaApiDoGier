@@ -1,12 +1,12 @@
 package pl;
 
-import pl.configuration.MyConfig;
-import pl.model.Player;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import pl.configuration.MyConfig;
+import pl.model.Player;
 
 /**
  * Created by kaima_000 on 2016-06-09.
@@ -29,7 +29,7 @@ public class Init {
         ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
 
         Init init = context.getBean(Init.class);
-        logger.info("------------########_-_-----------");
+        logger.info("------------########------------");
         for(String beanBean:context.getBeanDefinitionNames()){
             logger.info(beanBean);
         }
@@ -42,7 +42,6 @@ public class Init {
 
     private void start(String[] args){
 
-        //wot = new HttpWargamingClient("Edzio_Niszczyciel");
         wot.findPlayerByName("Edzio_Niszczyciel");
 
         System.out.println("Testing 1 - Send Http GET request");
@@ -55,7 +54,6 @@ public class Init {
         System.out.println(player.getWins());
         System.out.println(player.getLosses());
 
-        //HttpRiotClient riot = new HttpRiotClient("kaimada");
 
         httpRiotClient.findPlayerByName("kaimada");
         System.out.println("Testing 1 - Send Http GET request");

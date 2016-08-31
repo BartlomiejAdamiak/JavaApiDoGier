@@ -2,17 +2,18 @@ package pl;
 /**
  * Created by kaima_000 on 2016-06-09.
  */
-import pl.model.Player;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.model.Player;
 
 @Component
-public class HttpWargamingClient extends HttpClient{
+public class HttpWargamingClient extends HttpClient {
 
     final static Logger logger = Logger.getLogger(HttpWargamingClient.class);
 
@@ -20,7 +21,6 @@ public class HttpWargamingClient extends HttpClient{
     @Autowired
     Player player;
 
-    //@Autowired
     public HttpWargamingClient(String playerName) {
         findPlayerByName(playerName);
     }
@@ -29,15 +29,14 @@ public class HttpWargamingClient extends HttpClient{
     }
 
 
-    public Player findPlayerByName(String name){
-        //player = new Player(name);
+    public Player findPlayerByName(String name) {
         player.setName(name);
         player = getStatistics(player);
 
         return player;
     }
 
-    protected Player getStatistics(Player player){
+    protected Player getStatistics(Player player) {
         Integer id = getId(player.getName());
         player.setId(id);
         JSONObject statistics = getJSONStatisticsOfPlayerById(id);
@@ -48,16 +47,15 @@ public class HttpWargamingClient extends HttpClient{
         return player;
     }
 
-    protected Integer getId(String name){
-        String url = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search="+ name +"&limit=1";
+    protected Integer getId(String name) {
+        String url = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search=" + name + "&limit=1";
         String response = new String();
-        try{
+        try {
             response = sendGet(url);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(response.equals("Response failed")) return 0;
+        if (response.equals("Response failed")) return 0;
 
         JSONObject obj = parseToJSONObject(response);
         JSONArray data = (JSONArray) obj.get("data");
@@ -66,16 +64,15 @@ public class HttpWargamingClient extends HttpClient{
         return Integer.parseInt(firstObjectOfArray.get("account_id").toString());
     }
 
-    protected JSONObject getJSONStatisticsOfPlayerById(Integer id){
+    protected JSONObject getJSONStatisticsOfPlayerById(Integer id) {
         String url = "https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=" + id.toString();
         String response = new String();
-        try{
+        try {
             response = sendGet(url);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(response.equals("Response failed")) return null;
+        if (response.equals("Response failed")) return null;
         JSONParser parser = new JSONParser();
         JSONObject obj = new JSONObject();
         try {

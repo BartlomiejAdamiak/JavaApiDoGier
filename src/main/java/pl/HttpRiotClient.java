@@ -1,19 +1,19 @@
 package pl;
 
-import org.springframework.stereotype.Component;
-import pl.model.Player;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pl.model.Player;
 
 /**
  * Created by kaima_000 on 2016-08-29.
  */
 @Component
-public class HttpRiotClient extends HttpClient{
+public class HttpRiotClient extends HttpClient {
 
     final static Logger logger = Logger.getLogger(HttpRiotClient.class);
 
@@ -27,15 +27,14 @@ public class HttpRiotClient extends HttpClient{
         findPlayerByName(playerName);
     }
 
-    public Player findPlayerByName(String name){
-        //player = new Player(name);
+    public Player findPlayerByName(String name) {
         player.setName(name);
         player = getStatistics(player);
 
         return player;
     }
 
-    private Player getStatistics(Player player){
+    private Player getStatistics(Player player) {
         Integer id = getId(player.getName());
         player.setId(id);
         JSONObject statistics = getJSONStatisticsOfPlayerById(id);
@@ -46,16 +45,15 @@ public class HttpRiotClient extends HttpClient{
         return player;
     }
 
-    private Integer getId(String name){
+    private Integer getId(String name) {
         String url = "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/kaimada?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
         String response = new String();
-        try{
+        try {
             response = sendGet(url);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(response.equals("Response failed")) return 0;
+        if (response.equals("Response failed")) return 0;
 
         JSONObject obj = parseToJSONObject(response);
         JSONObject innerObj = (JSONObject) obj.get(name);
@@ -63,16 +61,15 @@ public class HttpRiotClient extends HttpClient{
         return Integer.parseInt(innerObj.get("id").toString());
     }
 
-    protected JSONObject getJSONStatisticsOfPlayerById(Integer id){
+    protected JSONObject getJSONStatisticsOfPlayerById(Integer id) {
         String url = "https://eune.api.pvp.net/api/lol/eune/v1.3/stats/by-summoner/" + id.toString() + "/summary?season=SEASON2015&api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
         String response = new String();
-        try{
+        try {
             response = sendGet(url);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(response.equals("Response failed")) return null;
+        if (response.equals("Response failed")) return null;
         JSONParser parser = new JSONParser();
         JSONObject obj = new JSONObject();
         try {
