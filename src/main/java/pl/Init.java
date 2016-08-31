@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Init {
 
     @Autowired
-    static HttpWargamingClient wot;
+    HttpWargamingClient wot;
+
+    @Autowired
+    HttpRiotClient httpRiotClient;
 
     final static Logger logger = Logger.getLogger(Init.class);
 
@@ -26,6 +29,10 @@ public class Init {
         ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
 
         Init init = context.getBean(Init.class);
+        logger.info("------------########_-_-----------");
+        for(String beanBean:context.getBeanDefinitionNames()){
+            logger.info(beanBean);
+        }
         init.start(args);
 
         logger.info("\nTHE END\n");
@@ -35,7 +42,8 @@ public class Init {
 
     private void start(String[] args){
 
-        wot = new HttpWargamingClient("Edzio_Niszczyciel");
+        //wot = new HttpWargamingClient("Edzio_Niszczyciel");
+        wot.findPlayerByName("Edzio_Niszczyciel");
 
         System.out.println("Testing 1 - Send Http GET request");
 
@@ -47,11 +55,12 @@ public class Init {
         System.out.println(player.getWins());
         System.out.println(player.getLosses());
 
-        HttpRiotClient riot = new HttpRiotClient("kaimada");
+        //HttpRiotClient riot = new HttpRiotClient("kaimada");
 
+        httpRiotClient.findPlayerByName("kaimada");
         System.out.println("Testing 1 - Send Http GET request");
 
-        Player player2 = riot.player;
+        Player player2 = httpRiotClient.player;
         System.out.println(player2.getId());
         System.out.println(player2.getName());
         System.out.println(player2.getKills());

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by kaima_000 on 2016-06-09.
  */
-@Component
+//@Component
 public class WorldOfTanksPlayer implements PlayerInterface {
 
     @Setter

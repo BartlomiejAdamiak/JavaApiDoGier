@@ -3,11 +3,12 @@ package pl.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Adam on 2016-08-29.
  */
-@Component
+@Service
 public class Player {
 
     @Getter
@@ -38,11 +39,11 @@ public class Player {
         this.name = name;
     }
 
-    public Player(Integer id, String name, Integer kills, Integer wins, Integer losses) {
+    /*public Player(Integer id, String name, Integer kills, Integer wins, Integer losses) {
         this.id = id;
         this.name = name;
         this.kills = kills;
         this.wins = wins;
         this.losses = losses;
-    }
+    }*/
 }

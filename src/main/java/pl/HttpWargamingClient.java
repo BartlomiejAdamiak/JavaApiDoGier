@@ -1,4 +1,5 @@
-package pl; /**
+package pl;
+/**
  * Created by kaima_000 on 2016-06-09.
  */
 import pl.model.Player;
@@ -18,13 +19,19 @@ public class HttpWargamingClient extends HttpClient{
 
     @Autowired
     Player player;
+
+    //@Autowired
     public HttpWargamingClient(String playerName) {
         findPlayerByName(playerName);
     }
 
+    public HttpWargamingClient() {
+    }
+
 
     public Player findPlayerByName(String name){
-        player = new Player(name);
+        //player = new Player(name);
+        player.setName(name);
         player = getStatistics(player);
 
         return player;

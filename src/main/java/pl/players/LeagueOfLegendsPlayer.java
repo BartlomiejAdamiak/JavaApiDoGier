@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by kaima_000 on 2016-08-29.
  */
-@Component
+//@Component
 public class LeagueOfLegendsPlayer implements PlayerInterface {
 
     @Setter

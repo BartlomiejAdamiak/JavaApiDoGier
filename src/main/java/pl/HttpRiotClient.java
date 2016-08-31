@@ -1,5 +1,6 @@
 package pl;
 
+import org.springframework.stereotype.Component;
 import pl.model.Player;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by kaima_000 on 2016-08-29.
  */
+@Component
 public class HttpRiotClient extends HttpClient{
 
     final static Logger logger = Logger.getLogger(HttpRiotClient.class);
@@ -18,12 +20,16 @@ public class HttpRiotClient extends HttpClient{
     @Autowired
     Player player;
 
+    public HttpRiotClient() {
+    }
+
     public HttpRiotClient(String playerName) {
         findPlayerByName(playerName);
     }
 
     public Player findPlayerByName(String name){
-        player = new Player(name);
+        //player = new Player(name);
+        player.setName(name);
         player = getStatistics(player);
 
         return player;

@@ -11,7 +11,8 @@
        xmlns:context="http://www.springframework.org/schema/context">
 
     <context:annotation-config/>
-    <context:component-scan base-package="pl"/>
+   <!-- <context:component-scan base-package="pl"/>
+-->
 
     <aop:aspectj-autoproxy/>
 

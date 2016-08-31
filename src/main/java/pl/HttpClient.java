@@ -1,11 +1,11 @@
 package pl;
 
-import pl.players.PlayerInterface;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
+import pl.players.PlayerInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,16 +16,19 @@ import java.net.URL;
  * Created by kaima_000 on 2016-06-09.
  */
 @Component
-public abstract class HttpClient implements HttpClientInterface {
+public class HttpClient implements HttpClientInterface {
     private final String USER_AGENT = "Mozilla/5.0";
     final static Logger logger = Logger.getLogger(HttpClient.class);
 
     PlayerInterface player = null;
 
+
+
     @Override
     public PlayerInterface findPlayer(String gameName, String playerName) {
+
         HttpClient client = null;
-        PlayerInterface player = null;
+        //PlayerInterface player = null;
         switch (gameName){
             case "WorldOfTanks" :{
                 client = new HttpWargamingClient(playerName);
@@ -74,6 +77,7 @@ public abstract class HttpClient implements HttpClientInterface {
     protected Integer getLosses(JSONObject statistics){
         return Integer.parseInt(statistics.get("losses").toString());
     }
+
     protected JSONObject parseToJSONObject(String stringToParse){
         JSONParser parser = new JSONParser();
         JSONObject obj = new JSONObject();
