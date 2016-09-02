@@ -12,7 +12,7 @@ public class Player {
 
     @Getter
     @Setter
-    private Integer id;
+    private String id;
 
     @Getter
     @Setter
@@ -37,6 +37,8 @@ public class Player {
     public Player(String name) {
         this.name = name;
     }
+
+
 
     /*public Player(Integer id, String name, Integer kills, Integer wins, Integer losses) {
         this.id = id;

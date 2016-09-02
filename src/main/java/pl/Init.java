@@ -20,6 +20,12 @@ public class Init {
     @Autowired
     HttpRiotClient httpRiotClient;
 
+    @Autowired
+    HttpCSGOClient httpL4D2Client;
+
+    @Autowired
+    HttpL4D2Client httpCSGOClient;
+
     final static Logger logger = Logger.getLogger(Init.class);
 
     public static void main(String[] args) throws Exception {
@@ -42,9 +48,8 @@ public class Init {
 
     private void start(String[] args){
 
+        System.out.println("World of Tanks");
         wot.findPlayerByName("Edzio_Niszczyciel");
-
-        System.out.println("Testing 1 - Send Http GET request");
 
         Player player = wot.player;
         System.out.println(player.getId());
@@ -54,9 +59,8 @@ public class Init {
         System.out.println(player.getWins());
         System.out.println(player.getLosses());
 
-
+        System.out.println("League of Legends");
         httpRiotClient.findPlayerByName("kaimada");
-        System.out.println("Testing 1 - Send Http GET request");
 
         Player player2 = httpRiotClient.player;
         System.out.println(player2.getId());
@@ -64,6 +68,26 @@ public class Init {
         System.out.println(player2.getKills());
         System.out.println(player2.getWins());
         System.out.println(player2.getLosses());
+
+        System.out.println("CS:GO");
+        httpCSGOClient.findPlayerById("76561197990828076");
+
+        Player player3 = httpCSGOClient.player;
+        System.out.println(player3.getId());
+        System.out.println(player3.getName());
+        System.out.println(player3.getKills());
+        System.out.println(player3.getWins());
+        System.out.println(player3.getLosses());
+
+        System.out.println("Left 4 Dead 2");
+        httpL4D2Client.findPlayerById("76561197990828076");
+
+        Player player4 = httpL4D2Client.player;
+        System.out.println(player4.getId());
+        System.out.println(player4.getName());
+        System.out.println(player4.getKills());
+        System.out.println(player4.getWins());
+        System.out.println(player4.getLosses());
 
     }
 }

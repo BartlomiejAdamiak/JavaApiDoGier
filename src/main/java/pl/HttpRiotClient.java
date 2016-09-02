@@ -3,8 +3,6 @@ package pl;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.model.Player;
@@ -18,7 +16,7 @@ public class HttpRiotClient extends HttpClient {
     final static Logger logger = Logger.getLogger(HttpRiotClient.class);
 
     @Autowired
-    Player player;
+    public Player player;
 
     public HttpRiotClient() {
     }
@@ -29,15 +27,21 @@ public class HttpRiotClient extends HttpClient {
 
     public Player findPlayerByName(String name) {
         player.setName(name);
+        player.setId(getPlayerId(name));
+        player = getStatistics(player);
+
+        return player;
+    }
+
+    public Player findPlayerById(String playerId) {
+        player.setId(playerId);
         player = getStatistics(player);
 
         return player;
     }
 
     private Player getStatistics(Player player) {
-        Integer id = getId(player.getName());
-        player.setId(id);
-        JSONObject statistics = getJSONStatisticsOfPlayerById(id);
+        JSONObject statistics = getJSONStatisticsOfPlayerById(player.getId());
         player.setKills(getKills(statistics));
         player.setWins(getWins(statistics));
         player.setLosses(getLosses(statistics));
@@ -45,38 +49,21 @@ public class HttpRiotClient extends HttpClient {
         return player;
     }
 
-    private Integer getId(String name) {
+    public String getPlayerId(String name) {
         String url = "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/kaimada?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
-        String response = new String();
-        try {
-            response = sendGet(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.equals("Response failed")) return 0;
 
-        JSONObject obj = parseToJSONObject(response);
+        JSONObject obj = sendUrlAndGetJSON(url);
+
         JSONObject innerObj = (JSONObject) obj.get(name);
 
-        return Integer.parseInt(innerObj.get("id").toString());
+        return innerObj.get("id").toString();
     }
 
-    protected JSONObject getJSONStatisticsOfPlayerById(Integer id) {
+    protected JSONObject getJSONStatisticsOfPlayerById(String id) {
         String url = "https://eune.api.pvp.net/api/lol/eune/v1.3/stats/by-summoner/" + id.toString() + "/summary?season=SEASON2015&api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
-        String response = new String();
-        try {
-            response = sendGet(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.equals("Response failed")) return null;
-        JSONParser parser = new JSONParser();
-        JSONObject obj = new JSONObject();
-        try {
-            obj = (JSONObject) parser.parse(response);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        JSONObject obj = sendUrlAndGetJSON(url);
+
         JSONArray array = (JSONArray) obj.get("playerStatSummaries");
         JSONObject findRanked5x5 = null;
         for (Object anArray : array) {

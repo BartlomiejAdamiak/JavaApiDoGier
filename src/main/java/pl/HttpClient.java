@@ -22,16 +22,16 @@ public class HttpClient implements HttpClientInterface {
     final static Logger logger = Logger.getLogger(HttpClient.class);
 
     @Autowired
-    Player player;
+    public Player player;
 
 
     @Override
-    public Player findPlayer(String gameName, String playerName) {
+    public Player findPlayer(String gameName, String playerId) {
 
         HttpClient client = null;
         switch (gameName) {
             case "WorldOfTanks": {
-                client = new HttpWargamingClient(playerName);
+                client = new HttpWargamingClient(playerId);
             }
         }
         return client.player;
@@ -84,6 +84,24 @@ public class HttpClient implements HttpClientInterface {
         JSONObject obj = new JSONObject();
         try {
             obj = (JSONObject) parser.parse(stringToParse);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    protected JSONObject sendUrlAndGetJSON(String url){
+        String response = new String();
+        try {
+            response = sendGet(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.equals("Response failed")) return null;
+        JSONParser parser = new JSONParser();
+        JSONObject obj = new JSONObject();
+        try {
+            obj = (JSONObject) parser.parse(response);
         } catch (ParseException e) {
             e.printStackTrace();
         }
