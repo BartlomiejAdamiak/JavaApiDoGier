@@ -1,4 +1,4 @@
-package pl;
+package pl.service;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.model.Player;
+import pl.service.wargaming.HttpWargamingClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,15 +18,13 @@ import java.net.URL;
  * Created by kaima_000 on 2016-06-09.
  */
 @Component
-public class HttpClient implements HttpClientInterface {
+public class HttpClient{
     private final String USER_AGENT = "Mozilla/5.0";
     final static Logger logger = Logger.getLogger(HttpClient.class);
 
     @Autowired
     public Player player;
 
-
-    @Override
     public Player findPlayer(String gameName, String playerId) {
 
         HttpClient client = null;

@@ -26,8 +26,8 @@ public class TestHttpWargamingClient {
 //        statistics.put("frags",67);
 //        statistics.put("wins",86);
 //        statistics.put("losses",94);
-//        //pl.HttpWargamingClient wot = new pl.HttpWargamingClient("kaimada");
-//        pl.HttpWargamingClient c = mock(pl.HttpWargamingClient.class);
+//        //pl.service.wargaming.HttpWargamingClient wot = new pl.service.wargaming.HttpWargamingClient("kaimada");
+//        pl.service.wargaming.HttpWargamingClient c = mock(pl.service.wargaming.HttpWargamingClient.class);
 //        when(c.getJSONStatisticsOfPlayerById(anyInt())).thenReturn(statistics);
 //        when(c.getStatistics(anyObject())).thenCallRealMethod();
 //        when(c.findPlayer(anyString(),anyString())).thenCallRealMethod();

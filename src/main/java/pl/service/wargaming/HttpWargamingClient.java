@@ -1,4 +1,4 @@
-package pl;
+package pl.service.wargaming;
 /**
  * Created by kaima_000 on 2016-06-09.
  */
@@ -9,9 +9,11 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.model.Player;
+import pl.service.HttpClient;
+import pl.service.HttpWotLolInterface;
 
 @Component
-public class HttpWargamingClient extends HttpClient {
+public class HttpWargamingClient extends HttpClient implements HttpWotLolInterface {
 
     final static Logger logger = Logger.getLogger(HttpWargamingClient.class);
 
@@ -42,7 +44,7 @@ public class HttpWargamingClient extends HttpClient {
         return player;
     }
 
-    protected Player getStatistics(Player player) {
+    public Player getStatistics(Player player) {
         JSONObject statistics = getJSONStatisticsOfPlayerById(player.getId());
         player.setKills(getKills(statistics));
         player.setWins(getWins(statistics));
@@ -51,7 +53,7 @@ public class HttpWargamingClient extends HttpClient {
         return player;
     }
 
-    protected String getPlayerId(String name) {
+    public String getPlayerId(String name) {
         String url = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search=" + name + "&limit=1";
 
         JSONObject obj = sendUrlAndGetJSON(url);
@@ -62,7 +64,7 @@ public class HttpWargamingClient extends HttpClient {
         return firstObjectOfArray.get("account_id").toString();
     }
 
-    protected JSONObject getJSONStatisticsOfPlayerById(String id) {
+    public JSONObject getJSONStatisticsOfPlayerById(String id) {
         String url = "https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=" + id.toString();
 
         JSONObject obj = sendUrlAndGetJSON(url);

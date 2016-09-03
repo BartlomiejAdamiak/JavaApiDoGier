@@ -1,4 +1,4 @@
-package pl;
+package pl.service.valve;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -6,12 +6,13 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.model.Player;
+import pl.service.HttpClient;
 
 /**
  * Created by kaima_000 on 2016-09-02.
  */
 @Component
-public abstract class HttpValveClient extends HttpClient{
+public abstract class HttpValveClient extends HttpClient implements HttpValveInterface{
     final static Logger logger = Logger.getLogger(HttpValveClient.class);
 
     @Autowired
@@ -28,7 +29,7 @@ public abstract class HttpValveClient extends HttpClient{
         return player;
     }
 
-    private String getName(String playerId){
+    public String getName(String playerId){
         String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=CEA96357A7E047331D22006B6D36D003&steamids=" + playerId;
 
         JSONObject obj = sendUrlAndGetJSON(url);
@@ -41,7 +42,7 @@ public abstract class HttpValveClient extends HttpClient{
         return (String) playerFound.get("personaname");
     }
 
-    private Player getStatistics(Player player) {
+    public Player getStatistics(Player player) {
         JSONObject statistics = getJSONStatisticsOfPlayerById(player.getId());
         player.setKills(getKills(statistics));
         player.setWins(getWins(statistics));
@@ -50,5 +51,5 @@ public abstract class HttpValveClient extends HttpClient{
         return player;
     }
 
-    protected abstract JSONObject getJSONStatisticsOfPlayerById(String id);
+    public abstract JSONObject getJSONStatisticsOfPlayerById(String id);
 }

@@ -2,11 +2,14 @@ package pl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 import pl.configuration.MyConfig;
 import pl.model.Player;
+import pl.service.HttpWotLolInterface;
+import pl.service.valve.HttpValveInterface;
 
 /**
  * Created by kaima_000 on 2016-06-09.
@@ -15,16 +18,20 @@ import pl.model.Player;
 public class Init {
 
     @Autowired
-    HttpWargamingClient wot;
+    @Qualifier("httpWargamingClient")
+    HttpWotLolInterface httpWargamingClient;
 
     @Autowired
-    HttpRiotClient httpRiotClient;
+    @Qualifier("httpWargamingClient")
+    HttpWotLolInterface httpRiotClient;
 
     @Autowired
-    HttpCSGOClient httpL4D2Client;
+    @Qualifier("httpCSGOClient")
+    HttpValveInterface httpCSGOClient;
 
     @Autowired
-    HttpL4D2Client httpCSGOClient;
+    @Qualifier("httpCSGOClient")
+    HttpValveInterface httpL4D2Client;
 
     final static Logger logger = Logger.getLogger(Init.class);
 
@@ -49,9 +56,9 @@ public class Init {
     private void start(String[] args){
 
         System.out.println("World of Tanks");
-        wot.findPlayerByName("Edzio_Niszczyciel");
 
-        Player player = wot.player;
+
+        Player player = httpWargamingClient.findPlayerByName("Edzio_Niszczyciel");
         System.out.println(player.getId());
         System.out.println(player.getName());
         System.out.println("FRAGI");
@@ -60,9 +67,10 @@ public class Init {
         System.out.println(player.getLosses());
 
         System.out.println("League of Legends");
-        httpRiotClient.findPlayerByName("kaimada");
 
-        Player player2 = httpRiotClient.player;
+
+
+        Player player2 = httpRiotClient.findPlayerByName("kaimada");
         System.out.println(player2.getId());
         System.out.println(player2.getName());
         System.out.println(player2.getKills());
@@ -70,9 +78,8 @@ public class Init {
         System.out.println(player2.getLosses());
 
         System.out.println("CS:GO");
-        httpCSGOClient.findPlayerById("76561197990828076");
 
-        Player player3 = httpCSGOClient.player;
+        Player player3 = httpCSGOClient.findPlayerById("76561197990828076");
         System.out.println(player3.getId());
         System.out.println(player3.getName());
         System.out.println(player3.getKills());
@@ -80,9 +87,8 @@ public class Init {
         System.out.println(player3.getLosses());
 
         System.out.println("Left 4 Dead 2");
-        httpL4D2Client.findPlayerById("76561197990828076");
 
-        Player player4 = httpL4D2Client.player;
+        Player player4 = httpL4D2Client.findPlayerById("76561197990828076");
         System.out.println(player4.getId());
         System.out.println(player4.getName());
         System.out.println(player4.getKills());
