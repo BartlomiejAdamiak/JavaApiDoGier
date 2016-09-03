@@ -14,6 +14,7 @@ import pl.model.Player;
 public class HttpCSGOClient extends HttpValveClient implements HttpValveInterface{
 
     final static Logger logger = Logger.getLogger(HttpL4D2Client.class);
+    private final static String API_URL_GET_STATISTICS_BY_ID = "https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=CEA96357A7E047331D22006B6D36D003&steamid=";
 
     @Autowired
     public Player player;
@@ -22,9 +23,7 @@ public class HttpCSGOClient extends HttpValveClient implements HttpValveInterfac
     }
 
     public JSONObject getJSONStatisticsOfPlayerById(String id) {
-        String url = "https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=CEA96357A7E047331D22006B6D36D003&steamid=" + id;
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id);
 
         JSONObject playerstats = (JSONObject) obj.get("playerstats");
         JSONArray statsarray = (JSONArray) playerstats.get("stats");

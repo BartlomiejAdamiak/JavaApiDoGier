@@ -14,6 +14,7 @@ import pl.service.HttpClient;
 @Component
 public abstract class HttpValveClient extends HttpClient implements HttpValveInterface{
     final static Logger logger = Logger.getLogger(HttpValveClient.class);
+    private final static String API_URL_GET_NAME = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=CEA96357A7E047331D22006B6D36D003&steamids=";
 
     @Autowired
     public Player player;
@@ -30,9 +31,7 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
     }
 
     public String getName(String playerId){
-        String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=CEA96357A7E047331D22006B6D36D003&steamids=" + playerId;
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_NAME + playerId);
 
         JSONObject response = (JSONObject) obj.get("response");
         JSONArray playersArray = (JSONArray) response.get("players");

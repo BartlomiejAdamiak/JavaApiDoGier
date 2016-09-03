@@ -16,7 +16,8 @@ import pl.service.HttpWotLolInterface;
 public class HttpWargamingClient extends HttpClient implements HttpWotLolInterface {
 
     final static Logger logger = Logger.getLogger(HttpWargamingClient.class);
-
+    private final static String API_URL_GET_PLAYER_ID = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search=";
+    private final static String API_URL_GET_STATISTICS_BY_ID = "https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=";
 
     @Autowired
     public Player player;
@@ -54,9 +55,7 @@ public class HttpWargamingClient extends HttpClient implements HttpWotLolInterfa
     }
 
     public String getPlayerId(String name) {
-        String url = "https://api.worldoftanks.eu/wot/account/list/?application_id=demo&search=" + name + "&limit=1";
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_PLAYER_ID + name + "&limit=1");
 
         JSONArray data = (JSONArray) obj.get("data");
         JSONObject firstObjectOfArray = (JSONObject) data.get(0);
@@ -65,9 +64,7 @@ public class HttpWargamingClient extends HttpClient implements HttpWotLolInterfa
     }
 
     public JSONObject getJSONStatisticsOfPlayerById(String id) {
-        String url = "https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=" + id.toString();
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id.toString());
 
         JSONObject data = (JSONObject) obj.get("data");
         JSONObject idValue = (JSONObject) data.get(id.toString());

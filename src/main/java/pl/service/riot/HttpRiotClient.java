@@ -52,7 +52,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     }
 
     public String getPlayerId(String name) {
-        String url =   "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/kaimada?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
+        String url = "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/kaimada?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
 
         JSONObject obj = sendUrlAndGetJSON(url);
 
