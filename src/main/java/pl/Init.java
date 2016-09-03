@@ -22,7 +22,7 @@ public class Init {
     HttpWotLolInterface httpWargamingClient;
 
     @Autowired
-    @Qualifier("httpWargamingClient")
+    @Qualifier("httpRiotClient")
     HttpWotLolInterface httpRiotClient;
 
     @Autowired
@@ -70,7 +70,7 @@ public class Init {
 
 
 
-        Player player2 = httpRiotClient.findPlayerByName("kaimada");
+        Player player2 = httpRiotClient.findPlayerByName("jagle13");
         System.out.println(player2.getId());
         System.out.println(player2.getName());
         System.out.println(player2.getKills());

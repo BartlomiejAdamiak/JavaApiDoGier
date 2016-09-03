@@ -16,6 +16,10 @@ import pl.service.HttpWotLolInterface;
 public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
 
     final static Logger logger = Logger.getLogger(HttpRiotClient.class);
+    private final static String API_URL_GET_PLAYER_ID_PART_1 = "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/";
+    private final static String API_URL_GET_PLAYER_ID_PART_2 = "?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
+    private final static String API_URL_GET_STATISTICS_BY_ID_PART_1 = "https://eune.api.pvp.net/api/lol/eune/v1.3/stats/by-summoner/";
+    private final static String API_URL_GET_STATISTICS_BY_ID_PART_2 = "/summary?season=SEASON2015&api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
 
     @Autowired
     public Player player;
@@ -52,9 +56,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     }
 
     public String getPlayerId(String name) {
-        String url = "https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/kaimada?api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_PLAYER_ID_PART_1 + name + API_URL_GET_PLAYER_ID_PART_2);
 
         JSONObject innerObj = (JSONObject) obj.get(name);
 
@@ -62,9 +64,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     }
 
     protected JSONObject getJSONStatisticsOfPlayerById(String id) {
-        String url = "https://eune.api.pvp.net/api/lol/eune/v1.3/stats/by-summoner/" + id.toString() + "/summary?season=SEASON2015&api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
-
-        JSONObject obj = sendUrlAndGetJSON(url);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID_PART_1 + id.toString() + API_URL_GET_STATISTICS_BY_ID_PART_2);
 
         JSONArray array = (JSONArray) obj.get("playerStatSummaries");
         JSONObject findRanked5x5 = null;
