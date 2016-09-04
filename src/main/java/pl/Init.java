@@ -5,10 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
 
     Stage window;
     Scene scene1, scene2;
+    BorderPane layout;
 
     @Autowired
     @Qualifier("httpWargamingClient")
@@ -51,6 +51,8 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
     final static Logger logger = Logger.getLogger(Init.class);
 
     public static void main(String[] args) throws Exception {
+
+
 
         logger.info("\nSTART!\n");
 
@@ -112,110 +114,100 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
         System.out.println(player4.getLosses());
     }
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        window.setTitle("Title of the MAIN WINDOW");
-        window.setOnCloseRequest(e -> {
-            e.consume(); //oznacza, że zajmiemy się tym -> zwykły X nie zadziała, jeśli go nie ogarniemy ;)
-            closeProgram();
+        window.setTitle("Java api do gier");
+
+        //File menu
+        Menu gamesInfoMenu = new Menu("Info o grach");
+        MenuItem wotInfo = new MenuItem("World of tanks");
+        wotInfo.setOnAction(e -> System.out.println("World of tanks info clicked"));
+
+        MenuItem lolInfo = new MenuItem("League of Legends");
+        lolInfo.setOnAction(e -> System.out.println("League of Legends info clicked"));
+
+        MenuItem csgoInfo = new MenuItem("CS:GO");
+        csgoInfo.setOnAction(e -> System.out.println("CS:GO info clicked"));
+
+        MenuItem l4d2Info = new MenuItem("L4D2");
+        l4d2Info.setOnAction(e -> System.out.println("L4D2 info clicked"));
+
+        MenuItem separatorMenuItem = new SeparatorMenuItem();
+
+        MenuItem exit = new MenuItem("Exit");
+        exit.setOnAction(e -> {
+            System.out.println("Exit clicked");
         });
+        gamesInfoMenu.getItems().addAll(wotInfo, lolInfo, csgoInfo, l4d2Info, separatorMenuItem, exit);
 
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        //przerwy miedzy elementami
-        gridPane.setVgap(8);
-        gridPane.setHgap(10);
+        //Help menu
 
+        Menu helpMenu = new Menu("Pomoc");
+        CheckMenuItem showLines = new CheckMenuItem("Wyświetl autorów programu");
+        showLines.setSelected(false);
+        showLines.setOnAction(e -> {
+            if(showLines.isSelected())
+            {
+                System.out.println("Program wyświetli autorów programu");
+            }
+            else
+                System.out.println("Ukryto autorów programu");
+        });
+        helpMenu.getItems().addAll(showLines);
+
+        //Difficulty RadioMenuItems
+        Menu someMenu = new Menu("Jakieś menu inne");
+        ToggleGroup optionsToggle = new ToggleGroup();
+
+        RadioMenuItem firstOpt = new RadioMenuItem("Pierwsza opcja");
+        RadioMenuItem secondOpt = new RadioMenuItem("Druga opcja");
+        RadioMenuItem thirdOpt = new RadioMenuItem("Trzecia opcja");
+
+        firstOpt.setToggleGroup(optionsToggle);
+        secondOpt.setToggleGroup(optionsToggle);
+        thirdOpt.setToggleGroup(optionsToggle);
+
+        someMenu.getItems().addAll(firstOpt, secondOpt, thirdOpt);
+
+        //Main menu bar
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(gamesInfoMenu, helpMenu, someMenu);
+
+
+        //CENTER
         //Label player1 name:
         Label playerNameLabel1 = new Label("Nick gracza:");
-        GridPane.setConstraints(playerNameLabel1, 0, 0);
 
         //Player name input:
         TextField playerNameInput1 = new TextField("Edzio_Niszczyciel");
-        GridPane.setConstraints(playerNameInput1, 1, 0);
 
         //Label player1 id:
         Label playerIdLabel1 = new Label("ID gracza:");
-        GridPane.setConstraints(playerNameLabel1, 0, 1);
 
         //Player id input:
         TextField playerIdInput1 = new TextField();
         playerIdInput1.setPromptText("Jakieś ID");
-        GridPane.setConstraints(playerNameInput1, 1, 1);
 
         //Przycisk przesyłający ID z boxa do programu
         Button newButton = new Button("Prześlij ID do programu");
         newButton.setOnAction(e -> {
             isInt(playerIdInput1, playerIdInput1.getText());
         });
-        GridPane.setConstraints(newButton, 1, 2);
-
-        gridPane.getChildren().addAll(playerNameLabel1, playerNameInput1, playerIdLabel1, playerIdInput1, newButton);
-
-        Scene scene3 = new Scene(gridPane, 400, 400);
-
-        HBox topMenu = new HBox();
-        Button buttonA = new Button("File");
-        Button buttonB = new Button("Edit");
-        Button buttonC = new Button("View");
-        topMenu.getChildren().addAll(buttonA, buttonB, buttonC);
-
-        VBox leftMenu = new VBox();
-        Button buttonLA = new Button("Left one");
-        Button buttonLB = new Button("Left two");
-        Button buttonLC = new Button("Left three");
-        leftMenu.getChildren().addAll(buttonLA, buttonLB, buttonLC);
-
-        //Dzięki temu mamy ładny podział na kawałki (TOP, LEFT, CENTER, RIGHT, BUTTOM)
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(topMenu);
-        borderPane.setLeft(leftMenu);
 
 
-        primaryStage.setTitle("Java Api do Gier");
-        Label label1 = new Label("Welcome!");
-        Button button1 = new Button("Go to scene 2");
-        button1.setOnAction(e -> window.setScene(scene2));
-        Button buttonNew = new Button("Alert!");
-        buttonNew.setOnAction(e -> AlertBox.display("Title of the window!", "Wow alert box rocks"));
-
-        Button confirmButton = new Button("Confirm button!");
-        confirmButton.setOnAction(e -> {
-            boolean result = ConfirmBox.display("Title of the confirm Button!", "Do u want to do it?!");
-            if(result==true){
-                label1.setText("Nowa nazwa label1.");
-            }else label1.setText("Hahahaha!");
-        });
-
-        Button buttonGoToPlayers = new Button("Got to Players! WOW");
-        buttonGoToPlayers.setOnAction(e -> window.setScene(scene3));
-
-        Button closeProgramButton = new Button("Close program!");
-        closeProgramButton.setOnAction(e ->{
-            closeProgram();
-        });
-
-        //Layout 1 - children are laid out in vertical column
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1, buttonNew, confirmButton, buttonGoToPlayers, closeProgramButton);
-        borderPane.setCenter(layout1);
-        scene1 = new Scene(borderPane, 600, 350);
-
-        //Button 2
-        Button button2 = new Button();
-        button2.setText("Go back to scene 1");
-        button2.setOnAction(e -> window.setScene(scene1));
+        //Layout
+        VBox centerLayout = new VBox(10);
+        centerLayout.setPadding(new Insets(20, 20, 20, 20));
+        centerLayout.getChildren().addAll(playerNameLabel1, playerNameInput1, playerIdLabel1, playerIdInput1, newButton);
 
 
-
-        //Layout 2
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().add(button2);
-        scene2 = new Scene(layout2, 600, 300);
-
-        window.setScene(scene1);
-        window.setTitle("Title of the window!");
+        layout = new BorderPane();
+        layout.setTop(menuBar);
+        layout.setCenter(centerLayout);
+        Scene scene = new Scene(layout, 600, 500);
+        window.setScene(scene);
         window.show();
     }
 
@@ -238,4 +230,5 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
         }
 
     }
+
 }
