@@ -1,137 +1,37 @@
-package pl;
+package pl.gui;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Service;
-import pl.configuration.MyConfig;
-import pl.gui.AlertBox;
-import pl.gui.ConfirmBox;
-import pl.model.Player;
-import pl.service.HttpWotLolInterface;
-import pl.service.valve.HttpValveInterface;
+import org.springframework.stereotype.Component;
 
 /**
- * Created by kaima_000 on 2016-06-09.
+ * Created by Adam on 2016-09-04.
  */
-@Service
-public class Init extends Application /*implements EventHandler<ActionEvent>*/{
-
-
-    @FXML
-    PieChart pieChart;
+@Component
+public class MainGui extends Application {
 
     Stage window;
     Scene scene1, scene2;
     BorderPane layout;
 
-
-    TextField playerNameInput1;
-    TextField playerIdInput1;
-
-    @Autowired
-    @Qualifier("httpWargamingClient")
-    HttpWotLolInterface httpWargamingClient;
-
-    @Autowired
-    @Qualifier("httpRiotClient")
-    HttpWotLolInterface httpRiotClient;
-
-    @Autowired
-    @Qualifier("httpCSGOClient")
-    HttpValveInterface httpCSGOClient;
-
-    @Autowired
-    @Qualifier("httpCSGOClient")
-    HttpValveInterface httpL4D2Client;
-
-    final static Logger logger = Logger.getLogger(Init.class);
-
-    public static void main(String[] args) throws Exception {
-
-        launch(args);
-
-        logger.info("\nSTART!\n");
-
-        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
-
-        Init init = context.getBean(Init.class);
-        logger.info("------------########------------");
-        for(String beanBean:context.getBeanDefinitionNames()){
-            logger.info(beanBean);
-        }
-        init.startBackground(args);
-
-
-        logger.info("\nTHE END\n");
-
+    public MainGui() {
     }
 
-
-    private void startBackground(String[] args){
-
-        System.out.println("World of Tanks");
-
-
-        Player player = httpWargamingClient.findPlayerByName("Edzio_Niszczyciel");
-        System.out.println(player.getId());
-        System.out.println(player.getName());
-        System.out.println("FRAGI");
-        System.out.println(player.getKills());
-        System.out.println(player.getWins());
-        System.out.println(player.getLosses());
-
-        System.out.println("League of Legends");
-
-
-
-        Player player2 = httpRiotClient.findPlayerByName("jagle13");
-        System.out.println(player2.getId());
-        System.out.println(player2.getName());
-        System.out.println(player2.getKills());
-        System.out.println(player2.getWins());
-        System.out.println(player2.getLosses());
-
-        System.out.println("CS:GO");
-
-
-        //TODO: nie mogę przerzucić ID z GUI tutaj:
-        //Player player3 = httpCSGOClient.findPlayerById(convertTextFieldToString(getPlayerIdInput1()));
-
-        Player player3 = httpCSGOClient.findPlayerById("76561197990828076");
-        System.out.println(player3.getId());
-        System.out.println(player3.getName());
-        System.out.println(player3.getKills());
-        System.out.println(player3.getWins());
-        System.out.println(player3.getLosses());
-
-        System.out.println("Left 4 Dead 2");
-
-        Player player4 = httpL4D2Client.findPlayerById("76561197990828076");
-        System.out.println(player4.getId());
-        System.out.println(player4.getName());
-        System.out.println(player4.getKills());
-        System.out.println(player4.getWins());
-        System.out.println(player4.getLosses());
+    public MainGui(Stage window, Scene scene1, Scene scene2, BorderPane layout) {
+        this.window = window;
+        this.scene1 = scene1;
+        this.scene2 = scene2;
+        this.layout = layout;
     }
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -201,13 +101,13 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
         Label playerNameLabel1 = new Label("Nick gracza:");
 
         //Player name input:
-        playerNameInput1 = new TextField("Edzio_Niszczyciel");
+        TextField playerNameInput1 = new TextField("Edzio_Niszczyciel");
 
         //Label player1 id:
         Label playerIdLabel1 = new Label("ID gracza:");
 
         //Player id input:
-        playerIdInput1 = new TextField();
+        TextField playerIdInput1 = new TextField();
         playerIdInput1.setPromptText("Jakieś ID");
 
         //Przycisk przesyłający ID z boxa do programu
@@ -233,7 +133,7 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
         primaryStage.show();*/
     }
 
-    public void btn(ActionEvent actionEvent){
+    /*public void btn(ActionEvent actionEvent){
         ObservableList<PieChart.Data> list = FXCollections.observableArrayList(
                 new PieChart.Data("Kills", 2500),
                 new PieChart.Data("Deaths", 200),
@@ -241,7 +141,7 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
                 new PieChart.Data("HeadShots", 123)
         );
         pieChart.setData(list);
-    }
+    }*/
 
     private void closeProgram(){
         Boolean answer = ConfirmBox.display("Title of confirm box", "Sure you want to exit?");
@@ -252,41 +152,14 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
 
     private boolean isInt(TextField input, String message){
         try{
-            System.out.println("The ID is: " + input);
-            System.out.println("The ID text is: " + convertTextFieldToString(input));
+            int id = Integer.parseInt(input.getText());
+            System.out.println("The ID is: " + id);
             return true;
         }catch(NumberFormatException e){
             System.out.println("Error: " + message + e);
             return false;
 
         }
+
     }
-
-    /*private String getNameFromGui(TextField input, String name){
-        return name;
-    }*/
-
-
-    public TextField getPlayerNameInput1() {
-        return playerNameInput1;
-    }
-
-    public void setPlayerNameInput1(TextField playerNameInput1) {
-        this.playerNameInput1 = playerNameInput1;
-    }
-
-    public TextField getPlayerIdInput1() {
-        return playerIdInput1;
-    }
-
-    public void setPlayerIdInput1(TextField playerIdInput1) {
-        this.playerIdInput1 = playerIdInput1;
-    }
-
-    public String convertTextFieldToString(TextField textField){
-        String text = textField.getText();
-        return text;
-    }
-
-
 }
