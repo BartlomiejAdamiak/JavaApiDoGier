@@ -4,9 +4,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Controller.Controller;
-import pl.model.Player;
-import pl.service.HttpClient;
+import pl.Control.Controller;
 import pl.service.HttpWotLolInterface;
 
 /**
@@ -41,7 +39,7 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
     }
 
     protected JSONObject getJSONStatisticsOfPlayerById(String id){
-        JSONObject obj = null;
+        JSONObject obj;
         try {
             obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID_PART_1 + id + API_URL_GET_STATISTICS_BY_ID_PART_2);
             JSONArray array = (JSONArray) obj.get("playerStatSummaries");
