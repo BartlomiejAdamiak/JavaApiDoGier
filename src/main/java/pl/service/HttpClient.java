@@ -89,7 +89,7 @@ public class HttpClient{
         return obj;
     }
 
-    protected JSONObject sendUrlAndGetJSON(String url){
+    public JSONObject sendUrlAndGetJSON(String url){
         String response = new String();
         try {
             response = sendGet(url);
