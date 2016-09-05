@@ -1,5 +1,6 @@
 package pl.controller;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -7,21 +8,25 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import pl.View.View;
 import pl.model.GamesEnum;
 import pl.model.Player;
 import pl.service.HttpWotLolInterface;
-import pl.service.riot.HttpRiotClient;
+import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
-import pl.service.wargaming.HttpWargamingClient;
+import pl.service.riotAndWargaming.HttpWargamingClient;
 
 import java.util.Objects;
 
 /**
  * Created by Adam on 2016-09-04.
  */
-public class Controller {
+public enum Controller {
+
+    controllerInstance;
+
     @Autowired
     @Qualifier("httpWargamingClient")
     HttpWotLolInterface httpWargamingClient;
@@ -106,27 +111,31 @@ public class Controller {
         return time;
     }
 
-    public boolean calculatePlayerData(GamesEnum.Game game, String message, TextField killsField, TextField winsField, TextField lossesField, TextField nameField){
+    public boolean calculatePlayerData(GamesEnum.Game game, String message, TextField killsField, TextField winsField, TextField lossesField, TextField nameField) throws Exception {
         Player player = null;
         switch (game){
             case WoT: {
                 httpWargamingClient = new HttpWargamingClient();
-                player = httpWargamingClient.findPlayerByName(message);
+                httpWargamingClient.findPlayerByName(message);
+                player = httpWargamingClient.getPlayer();
                 break;
             }
             case LoL: {
                 httpRiotClient = new HttpRiotClient();
-                player = httpRiotClient.findPlayerByName(message);
+                httpRiotClient.findPlayerByName(message);
+                player = httpRiotClient.getPlayer();
                 break;
             }
             case CSGO: {
                 httpCSGOClient = new HttpCSGOClient();
-                player = httpCSGOClient.findPlayerById(message);
+                httpCSGOClient.findPlayerById(message);
+                player = httpCSGOClient.getPlayer();
                 break;
             }
             case L4D2:  {
                 httpL4D2Client = new HttpL4D2Client();
-                player = httpL4D2Client.findPlayerById(message);
+                httpL4D2Client.findPlayerById(message);
+                player = httpL4D2Client.getPlayer();
                 break;
             }
         }
@@ -136,5 +145,9 @@ public class Controller {
         nameField.setText(player.getName());
         updatePieChart(game,player);
         return true;
+    }
+
+    public void exceptionOccured(Exception e){
+        View.viewInstance.createPopUp(e.getMessage());
     }
 }
