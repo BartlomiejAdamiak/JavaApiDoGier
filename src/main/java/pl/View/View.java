@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.model.GamesEnum;
-import pl.Controller.Controller;
+import pl.controller.Controller;
 
 /**
  * Created by kaima_000 on 2016-09-05.
