@@ -1,4 +1,9 @@
+<<<<<<< HEAD:src/main/java/pl/Control/Controller.java
 package pl.Control;
+=======
+package pl.controller;
+
+>>>>>>> master:src/main/java/pl/Controller/Controller.java
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
