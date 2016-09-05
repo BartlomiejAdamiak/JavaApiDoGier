@@ -23,6 +23,7 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
     }
 
     public Player findPlayerById(String playerId) {
+        player = new Player();
         player.setId(playerId);
         player.setName(getName(playerId));
         player = getStatistics(player);
