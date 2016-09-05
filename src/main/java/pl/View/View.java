@@ -7,11 +7,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
+import pl.Control.Controller;
 import pl.model.GamesEnum;
-import pl.Controller.Controller;
 
 /**
  * Created by kaima_000 on 2016-09-05.

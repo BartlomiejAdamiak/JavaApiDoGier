@@ -7,9 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Controller.Controller;
-import pl.model.Player;
-import pl.service.HttpClient;
+import pl.Control.Controller;
 import pl.service.HttpWotLolInterface;
 
 @Component
@@ -28,7 +26,7 @@ public class HttpWargamingClient extends HttpRiotAndWargaming implements HttpWot
     }
 
     public String getPlayerId(String name) {
-        JSONObject obj = null;
+        JSONObject obj;
         try {
             obj = sendUrlAndGetJSON(API_URL_GET_PLAYER_ID + name + "&limit=1");
             JSONArray data = (JSONArray) obj.get("data");
@@ -41,7 +39,7 @@ public class HttpWargamingClient extends HttpRiotAndWargaming implements HttpWot
     }
 
     protected JSONObject getJSONStatisticsOfPlayerById(String id) {
-        JSONObject obj = null;
+        JSONObject obj;
         try {
             obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id);
             JSONObject data = (JSONObject) obj.get("data");

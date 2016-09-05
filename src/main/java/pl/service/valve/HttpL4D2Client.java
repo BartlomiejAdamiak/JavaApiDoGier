@@ -3,10 +3,8 @@ package pl.service.valve;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.Controller.Controller;
-import pl.model.Player;
+import pl.Control.Controller;
 
 /**
  * Created by kaima_000 on 2016-09-02.
@@ -21,7 +19,7 @@ public class HttpL4D2Client extends HttpValveClient implements HttpValveInterfac
     }
 
     public JSONObject getJSONStatisticsOfPlayerById(String id) {
-        JSONObject obj = null;
+        JSONObject obj;
         try {
             obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id);
             JSONObject playerstats = (JSONObject) obj.get("playerstats");

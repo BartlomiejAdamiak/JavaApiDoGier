@@ -1,13 +1,10 @@
 package pl.service.riotAndWargaming;
 
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Controller.Controller;
 import pl.model.Player;
 import pl.service.HttpClient;
-import pl.service.HttpWotLolInterface;
 
 /**
  * Created by kaima_000 on 2016-08-29.

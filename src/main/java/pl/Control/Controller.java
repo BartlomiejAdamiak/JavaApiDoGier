@@ -1,5 +1,4 @@
-package pl.Controller;
-
+package pl.Control;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,15 +12,15 @@ import pl.model.GamesEnum;
 import pl.model.Player;
 import pl.service.HttpWotLolInterface;
 import pl.service.riotAndWargaming.HttpRiotClient;
+import pl.service.riotAndWargaming.HttpWargamingClient;
 import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
-import pl.service.riotAndWargaming.HttpWargamingClient;
 
 import java.util.Objects;
 
 /**
- * Created by Adam on 2016-09-04.
+ * Created by kaima_000 on 2016-09-06.
  */
 public enum Controller {
 
