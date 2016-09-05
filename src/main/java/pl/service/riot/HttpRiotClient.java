@@ -59,7 +59,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     public String getPlayerId(String name) {
         JSONObject obj = sendUrlAndGetJSON(API_URL_GET_PLAYER_ID_PART_1 + name + API_URL_GET_PLAYER_ID_PART_2);
 
-        JSONObject innerObj = (JSONObject) obj.get(name);
+        JSONObject innerObj = (JSONObject) obj.get(name.toLowerCase());
 
         return innerObj.get("id").toString();
     }
