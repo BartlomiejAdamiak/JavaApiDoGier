@@ -32,6 +32,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     }
 
     public Player findPlayerByName(String name) {
+        player = new Player();
         player.setName(name);
         player.setId(getPlayerId(name));
         player = getStatistics(player);
@@ -64,7 +65,7 @@ public class HttpRiotClient extends HttpClient implements HttpWotLolInterface {
     }
 
     protected JSONObject getJSONStatisticsOfPlayerById(String id) {
-        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID_PART_1 + id.toString() + API_URL_GET_STATISTICS_BY_ID_PART_2);
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID_PART_1 + id + API_URL_GET_STATISTICS_BY_ID_PART_2);
 
         JSONArray array = (JSONArray) obj.get("playerStatSummaries");
         JSONObject findRanked5x5 = null;

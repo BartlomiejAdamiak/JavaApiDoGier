@@ -31,6 +31,7 @@ public class HttpWargamingClient extends HttpClient implements HttpWotLolInterfa
 
 
     public Player findPlayerByName(String name) {
+        player = new Player();
         player.setName(name);
         player.setId(getPlayerId(name));
         player = getStatistics(player);
@@ -64,10 +65,10 @@ public class HttpWargamingClient extends HttpClient implements HttpWotLolInterfa
     }
 
     public JSONObject getJSONStatisticsOfPlayerById(String id) {
-        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id.toString());
+        JSONObject obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID + id);
 
         JSONObject data = (JSONObject) obj.get("data");
-        JSONObject idValue = (JSONObject) data.get(id.toString());
+        JSONObject idValue = (JSONObject) data.get(id);
         JSONObject statistics = (JSONObject) idValue.get("statistics");
         JSONObject all = (JSONObject) statistics.get("all");
 
