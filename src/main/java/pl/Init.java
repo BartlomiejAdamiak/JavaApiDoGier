@@ -36,7 +36,7 @@ public class Init extends Application /*implements EventHandler<ActionEvent>*/{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        View view = new View(primaryStage);
+        View.viewInstance.prepareView(primaryStage);
         /*Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));*/
     }
 }

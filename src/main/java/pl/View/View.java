@@ -7,6 +7,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.model.GamesEnum;
@@ -15,9 +16,9 @@ import pl.Controller.Controller;
 /**
  * Created by kaima_000 on 2016-09-05.
  */
-public class View {
-    @Autowired
-    Controller controller;
+public enum View {
+
+    viewInstance;
 
     @FXML
     PieChart pieChart;
@@ -26,9 +27,8 @@ public class View {
     HBox layout;
     MenuBar menuBar;
 
-    public View(Stage primaryStage){
-        controller = new Controller();
-        window = primaryStage;
+    public void prepareView(Stage stage){
+        window = stage;
         window.setTitle("Java api do gier");
 
         VBox vBoxWoT = prepareLayout(GamesEnum.Game.WoT,"Edzio_Niszczyciel");
@@ -48,7 +48,7 @@ public class View {
 
     private void preparePieChart(){
         pieChart = new PieChart();
-        controller.setDefaultPieChartData(pieChart);
+        Controller.controllerInstance.setDefaultPieChartData(pieChart);
     }
 
     private MenuBar prepareMenuBar(){
@@ -63,9 +63,9 @@ public class View {
         ToggleGroup optionsToggle = new ToggleGroup();
 
         RadioMenuItem firstOpt = new RadioMenuItem("Ingame hours");
-        firstOpt.setOnAction(e -> controller.pieChartChanged(firstOpt,pieChart));
+        firstOpt.setOnAction(e -> Controller.controllerInstance.pieChartChanged(firstOpt,pieChart));
         RadioMenuItem secondOpt = new RadioMenuItem("Matches played");
-        secondOpt.setOnAction(e -> controller.pieChartChanged(secondOpt,pieChart));
+        secondOpt.setOnAction(e -> Controller.controllerInstance.pieChartChanged(secondOpt,pieChart));
 
         firstOpt.setToggleGroup(optionsToggle);
         secondOpt.setToggleGroup(optionsToggle);
@@ -95,7 +95,13 @@ public class View {
         playerNameOutput.setDisable(true);
 
         Button buttonCalculatePlayer = new Button("Calculate");
-        buttonCalculatePlayer.setOnAction(e -> controller.calculatePlayerData(game, playerInput.getText(),playerKillsOutput,playerLossesOutput,playerWinsOutput,playerNameOutput));
+        buttonCalculatePlayer.setOnAction(e -> {
+            try {
+                Controller.controllerInstance.calculatePlayerData(game, playerInput.getText(), playerKillsOutput, playerLossesOutput, playerWinsOutput, playerNameOutput);
+            } catch (Exception e1) {
+                createPopUp(e.toString());
+            }
+        });
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20, 20, 20, 20));
@@ -103,5 +109,14 @@ public class View {
                 playerKillsLabel, playerKillsOutput, playerWinsLabel, playerWinsOutput, playerLossesLabel, playerLossesOutput, buttonCalculatePlayer);
 
         return layout;
+    }
+
+    public void createPopUp(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Exception occured");
+        alert.setHeaderText(null);
+        alert.setContentText("Player not found");
+
+        alert.showAndWait();
     }
 }

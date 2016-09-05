@@ -7,7 +7,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.model.Player;
-import pl.service.wargaming.HttpWargamingClient;
+import pl.service.riotAndWargaming.HttpWargamingClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,7 +25,7 @@ public class HttpClient{
     @Autowired
     public Player player;
 
-    public Player findPlayer(String gameName, String playerId) {
+    public Player findPlayer(String gameName, String playerId) throws Exception {
 
         HttpClient client = null;
         switch (gameName) {
@@ -50,6 +50,7 @@ public class HttpClient{
 
         int responseCode;
         responseCode = con.getResponseCode();
+        if (responseCode != 200) throw new Exception("Response failed");
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -62,13 +63,10 @@ public class HttpClient{
         in.close();
 
         response = buffer.toString();
-        if (responseCode != 200) return "Response failed";
         return response;
     }
 
-    protected Integer getKills(JSONObject statistics) {
-        return Integer.parseInt(statistics.get("kills").toString());
-    }
+    protected Integer getKills(JSONObject statistics) { return Integer.parseInt(statistics.get("kills").toString()); }
 
     protected Integer getWins(JSONObject statistics) {
         return Integer.parseInt(statistics.get("wins").toString());
@@ -78,23 +76,12 @@ public class HttpClient{
         return Integer.parseInt(statistics.get("losses").toString());
     }
 
-    protected JSONObject parseToJSONObject(String stringToParse) {
-        JSONParser parser = new JSONParser();
-        JSONObject obj = new JSONObject();
-        try {
-            obj = (JSONObject) parser.parse(stringToParse);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return obj;
-    }
-
-    protected JSONObject sendUrlAndGetJSON(String url){
+    protected JSONObject sendUrlAndGetJSON(String url) throws Exception {
         String response = new String();
         try {
             response = sendGet(url);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
         if (response.equals("Response failed")) return null;
         JSONParser parser = new JSONParser();
@@ -102,9 +89,17 @@ public class HttpClient{
         try {
             obj = (JSONObject) parser.parse(response);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw e;
         }
         return obj;
+    }
+
+    public Player getPlayer(){
+        return player;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
 

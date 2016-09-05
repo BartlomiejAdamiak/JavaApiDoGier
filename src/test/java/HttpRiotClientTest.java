@@ -5,12 +5,10 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.model.Player;
-import pl.service.riot.HttpRiotClient;
-import pl.service.wargaming.HttpWargamingClient;
+import pl.service.riotAndWargaming.HttpRiotClient;
 
 
 import static org.junit.Assert.*;
@@ -26,22 +24,16 @@ public class HttpRiotClientTest
     private HttpRiotClient testObject = new HttpRiotClient();
 
 
-
-    @Test
-    public void testFindById()
-    {
-        Player testPlayer = testObject.findPlayerById("19940663");
-
-        //assertEquals("SIPIAIM",testPlayer.getName()); //jak się okazuje, klient nie pobiera nazwy użytkownika
-        assertEquals((Integer) 15,testPlayer.getWins());
-        assertEquals((Integer) 6,testPlayer.getLosses());
-        assertEquals((Integer) 147,testPlayer.getKills());
-    }
-
     @Test
     public void testFindByName()
     {
-        Player testPlayer = testObject.findPlayerByName("SIPIAIM");
+        Player testPlayer = null;
+        try {
+            testObject.findPlayerByName("SIPIAIM");
+            testPlayer = testObject.player;
+        } catch (Exception e) {
+            fail();
+        }
 
         assertEquals("SIPIAIM",testPlayer.getName());
 
