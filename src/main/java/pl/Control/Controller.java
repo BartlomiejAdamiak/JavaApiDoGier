@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import pl.View.View;
 import pl.model.GamesEnum;
 import pl.model.Player;
+import pl.model.oneGameView;
 import pl.service.HttpWotLolInterface;
 import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.riotAndWargaming.HttpWargamingClient;
@@ -17,6 +18,7 @@ import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -110,7 +112,7 @@ public enum Controller {
         return time;
     }
 
-    public boolean calculatePlayerData(GamesEnum.Game game, String message, TextField killsField, TextField winsField, TextField lossesField, TextField nameField) throws Exception {
+    public void calculatePlayerData(GamesEnum.Game game, String message, oneGameView oneGame) throws Exception {
         Player player = null;
         switch (game){
             case WoT: {
@@ -138,12 +140,11 @@ public enum Controller {
                 break;
             }
         }
-        killsField.setText(player.getKills().toString());
-        lossesField.setText(player.getLosses().toString());
-        winsField.setText(player.getWins().toString());
-        nameField.setText(player.getName());
+        oneGame.getPlayerKillsOutput().setText(player.getKills().toString());
+        oneGame.getPlayerLossesOutput().setText(player.getLosses().toString());
+        oneGame.getPlayerWinsOutput().setText(player.getWins().toString());
+        oneGame.getPlayerNameOutput().setText(player.getName());
         updatePieChart(game,player);
-        return true;
     }
 
     public void exceptionOccured(Exception e){

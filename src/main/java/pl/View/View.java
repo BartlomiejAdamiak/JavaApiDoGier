@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pl.Control.Controller;
 import pl.model.GamesEnum;
+import pl.model.oneGameView;
 
 /**
  * Created by kaima_000 on 2016-09-05.
@@ -92,10 +93,12 @@ public enum View {
         TextField playerNameOutput = new TextField();
         playerNameOutput.setDisable(true);
 
+        oneGameView gameView = new oneGameView(playerKillsOutput,playerLossesOutput,playerWinsOutput,playerNameOutput);
+
         Button buttonCalculatePlayer = new Button("Calculate");
         buttonCalculatePlayer.setOnAction(e -> {
             try {
-                Controller.controllerInstance.calculatePlayerData(game, playerInput.getText(), playerKillsOutput, playerLossesOutput, playerWinsOutput, playerNameOutput);
+                Controller.controllerInstance.calculatePlayerData(game, playerInput.getText(),gameView);
             } catch (Exception e1) {
                 createPopUp(e.toString());
             }
