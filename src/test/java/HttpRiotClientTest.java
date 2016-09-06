@@ -12,8 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.model.Player;
-import pl.service.riot.HttpRiotClient;
-import pl.service.wargaming.HttpWargamingClient;
+import pl.service.riotAndWargaming.HttpRiotClient;
 
 
 import static org.junit.Assert.*;
@@ -29,18 +28,6 @@ public class HttpRiotClientTest
     @InjectMocks
     private HttpRiotClient testObject = new HttpRiotClient();
 
-
-
-    @Test
-    public void testFindById()
-    {
-        Player testPlayer = testObject.findPlayerById("19940663");
-
-        //assertEquals("SIPIAIM",testPlayer.getName()); //jak się okazuje, klient nie pobiera nazwy użytkownika
-        assertEquals((Integer) 15,testPlayer.getWins());
-        assertEquals((Integer) 6,testPlayer.getLosses());
-        assertEquals((Integer) 147,testPlayer.getKills());
-    }
 
 
 
@@ -61,5 +48,29 @@ public class HttpRiotClientTest
         assertEquals((Integer) 6,testPlayer.getLosses());
         assertEquals((Integer) 147,testPlayer.getKills());
     }
+
+    @Test
+    public void testGetKills()
+    {
+        JSONObject innerJSON = new JSONObject();
+        innerJSON.put("totalChampionKills",147);
+        innerJSON.put("totalMinionKills",2507);
+        innerJSON.put("totalAssists",180);
+        innerJSON.put("totalNeutralMinionsKilled",690);
+        innerJSON.put("totalTurretsKilled",28);
+
+        JSONObject mockObject = new JSONObject();
+        mockObject.put("wins","15");
+        mockObject.put("modifyDate","1448635784000");
+        mockObject.put("aggregatedStats",innerJSON);
+        mockObject.put("losses","6");
+        mockObject.put("playerStatSummaryType","RankedSolo5x5");
+
+        Integer testResult = testObject.getKills(mockObject);
+
+        assertEquals((Integer) 147,testResult);
+    }
+
+
 
 }
