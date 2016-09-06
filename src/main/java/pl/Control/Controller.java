@@ -1,10 +1,9 @@
-package pl.Control;
+package pl.control;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import pl.View.View;
@@ -18,7 +17,6 @@ import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

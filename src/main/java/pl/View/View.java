@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import pl.Control.Controller;
+import pl.control.Controller;
 import pl.model.GamesEnum;
 import pl.model.oneGameView;
 

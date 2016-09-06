@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Control.Controller;
 
 /**
  * Created by kaima_000 on 2016-09-02.
@@ -40,7 +39,8 @@ public class HttpL4D2Client extends HttpValveClient implements HttpValveInterfac
 
             return statsToReturn;
         } catch (Exception e) {
-            Controller.controllerInstance.exceptionOccured(e);
+            logger.debug("Exception at getJSONStatisticsOfPlayerById(String): " + e);
+            //Controller.controllerInstance.exceptionOccured(e);
         }
         return null;
     }

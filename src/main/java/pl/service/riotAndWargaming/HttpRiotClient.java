@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Control.Controller;
+import pl.control.Controller;
 import pl.service.HttpWotLolInterface;
 
 /**
@@ -33,7 +33,8 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
             JSONObject innerObj = (JSONObject) obj.get(name.toLowerCase());
             return innerObj.get("id").toString();
         }catch(Exception e){
-            Controller.controllerInstance.exceptionOccured(e);
+            logger.debug("Exception at getPlayerId(String): " + e);
+            //Controller.controllerInstance.exceptionOccured(e);
         }
         return null;
     }
@@ -53,6 +54,7 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
             }
             return findRanked5x5;
         } catch (Exception e) {
+            logger.debug("Exception at getJSONStatisticsOfPlayerById(String): " + e);
             Controller.controllerInstance.exceptionOccured(e);
         }
         return null;
