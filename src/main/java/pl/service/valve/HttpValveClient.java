@@ -16,21 +16,20 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
     final static Logger logger = Logger.getLogger(HttpValveClient.class);
     private final static String API_URL_GET_NAME = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=CEA96357A7E047331D22006B6D36D003&steamids=";
 
-    @Autowired
-    public Player player;
-
     public HttpValveClient() {
     }
 
-    public Player findPlayerById(String playerId) {
+    public void findPlayerById(String playerId) throws Exception {
+        player = new Player();
+        JSONObject statistics = getJSONStatisticsOfPlayerById(playerId);
         player.setId(playerId);
         player.setName(getName(playerId));
-        player = getStatistics(player);
-
-        return player;
+        player.setKills(getKills(statistics));
+        player.setWins(getWins(statistics));
+        player.setLosses(getLosses(statistics));
     }
 
-    public String getName(String playerId){
+    public String getName(String playerId) throws Exception {
         JSONObject obj = sendUrlAndGetJSON(API_URL_GET_NAME + playerId);
 
         JSONObject response = (JSONObject) obj.get("response");
@@ -39,15 +38,6 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
         JSONObject playerFound = (JSONObject) playersArray.get(0);
 
         return (String) playerFound.get("personaname");
-    }
-
-    public Player getStatistics(Player player) {
-        JSONObject statistics = getJSONStatisticsOfPlayerById(player.getId());
-        player.setKills(getKills(statistics));
-        player.setWins(getWins(statistics));
-        player.setLosses(getLosses(statistics));
-
-        return player;
     }
 
     public abstract JSONObject getJSONStatisticsOfPlayerById(String id);
