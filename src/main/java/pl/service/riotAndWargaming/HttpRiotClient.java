@@ -3,8 +3,8 @@ package pl.service.riotAndWargaming;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
-import pl.Control.Controller;
+import org.springframework.stereotype.Service;
+import pl.controller.Controller;
 import pl.service.HttpWotLolInterface;
 
 /**
@@ -29,7 +29,7 @@ import pl.service.HttpWotLolInterface;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-@Component
+@Service
 public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolInterface {
 
     final static Logger logger = Logger.getLogger(HttpRiotClient.class);

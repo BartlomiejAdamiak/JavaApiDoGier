@@ -36,18 +36,14 @@ import org.springframework.stereotype.Component;
 public class AspectLogger {
     Logger logger = Logger.getLogger(AspectLogger.class);
 
-    @Pointcut("execution(* pl.View.View.prepareLayout(..))")
-    public void prepareLayout() {
+
+    @Before("execution(* pl.service.riotAndWargaming.HttpWargamingClient.getPlayerId(..))")
+    public void logBeforeGetPlayerId(JoinPoint joinPoint) {
+        logger.info("Called method " + joinPoint.getSignature().getName() + "AspectJ before method getPlyerId");
     }
 
-
-    @Before("prepareLayout()")
-    public void logBeforePrepareLayout(JoinPoint joinPoint) {
-        logger.error("Called method " + joinPoint.getSignature().getName() + "LALALALA");
-    }
-
-    @After("prepareLayout()")
+    @After("execution(* pl.View.View.prepareLayout(..))")
     public void logAfterPrepareLayout(JoinPoint joinPoint) {
-        logger.error("Finished method " + joinPoint.getSignature().getName() + ".");
+        logger.info("Finished method " + joinPoint.getSignature().getName() + "AspectJ after method PrepareLayout");
     }
 }

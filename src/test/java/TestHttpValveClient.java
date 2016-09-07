@@ -40,7 +40,7 @@ public class TestHttpValveClient {
 
         Player player = null;
         try {
-            httpValveClient.findPlayerById("76561197968656365");
+            httpValveClient.findPlayerById("76561197990828076");
             player = httpValveClient.getPlayer();
         } catch (Exception e) {
             fail();

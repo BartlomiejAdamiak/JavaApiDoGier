@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.model.Player;
 import pl.service.riotAndWargaming.HttpWargamingClient;
 
@@ -36,7 +36,7 @@ import java.net.URL;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-@Component
+@Service
 public class HttpClient {
     final static Logger logger = Logger.getLogger(HttpClient.class);
     private final String USER_AGENT = "Mozilla/5.0";
