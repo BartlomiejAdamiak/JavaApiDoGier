@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.Control.Controller;
+import pl.control.Controller;
 import pl.service.HttpWotLolInterface;
 
 @Component

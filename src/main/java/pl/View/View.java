@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.Pointcut;
-import pl.Control.Controller;
+import pl.control.Controller;
 import pl.model.GamesEnum;
 import pl.model.OneGameView;
 
