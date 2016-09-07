@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import pl.View.View;
-import pl.model.EventPlayerNotFound;
 import pl.model.GamesEnum;
 import pl.model.Player;
 import pl.model.OneGameView;
@@ -20,9 +18,7 @@ import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
 
-import java.awt.*;
 import java.util.Objects;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  JavaApiDoGier - program służący do przedstawiania statystyk gracza

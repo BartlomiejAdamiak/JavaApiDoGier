@@ -10,9 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.context.ApplicationListener;
 import pl.Control.Controller;
-import pl.model.EventPlayerNotFound;
 import pl.model.GamesEnum;
 import pl.model.OneGameView;
 
