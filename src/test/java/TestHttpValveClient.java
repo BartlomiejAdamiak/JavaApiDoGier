@@ -40,15 +40,15 @@ public class TestHttpValveClient {
 
         Player player = null;
         try {
-            httpValveClient.findPlayerById("76561197990828076");
+            httpValveClient.findPlayerById("76561197968656365");
             player = httpValveClient.getPlayer();
         } catch (Exception e) {
             fail();
         }
-        assertEquals(player.getName(), "S.P.A.M");
-        assertEquals(player.getKills(), (Integer) 12411);
-        assertEquals(player.getWins(), (Integer) 269);
-        assertEquals(player.getLosses(), (Integer) 446);
+        assertEquals("S.P.A.M",player.getName());
+        assertEquals( (Integer) 12411,player.getKills());
+        assertEquals( (Integer) 269, player.getWins());
+        assertEquals( (Integer) 446, player.getLosses());
     }
 
     @Test
