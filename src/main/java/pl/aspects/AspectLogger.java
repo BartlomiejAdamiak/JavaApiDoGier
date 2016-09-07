@@ -1,4 +1,12 @@
-package pl.model;
+package pl.aspects;
+
+import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 /**
  * JavaApiDoGier - program służący do przedstawiania statystyk gracza
@@ -22,21 +30,24 @@ package pl.model;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-public class GamesEnum {
-    public enum Game {
-        WoT("World of Tanks"),
-        LoL("League of Legends"),
-        CSGO("Counter Strike Global Offensive"),
-        L4D2("Left 4 Dead 2");
 
-        String fullName;
+@Component
+@Aspect
+public class AspectLogger {
+    Logger logger = Logger.getLogger(AspectLogger.class);
 
-        Game(String getFullName) {
-            fullName = getFullName;
-        }
+    @Pointcut("execution(* pl.View.View.prepareLayout(..))")
+    public void prepareLayout() {
+    }
 
-        public static String getFullName(Game game) {
-            return game.fullName;
-        }
+
+    @Before("prepareLayout()")
+    public void logBeforePrepareLayout(JoinPoint joinPoint) {
+        logger.error("Called method " + joinPoint.getSignature().getName() + "LALALALA");
+    }
+
+    @After("prepareLayout()")
+    public void logAfterPrepareLayout(JoinPoint joinPoint) {
+        logger.error("Finished method " + joinPoint.getSignature().getName() + ".");
     }
 }

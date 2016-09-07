@@ -1,16 +1,16 @@
-package pl.Control;
+package pl.control;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.TextField;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import pl.View.View;
 import pl.model.GamesEnum;
+import pl.model.OneGameView;
 import pl.model.Player;
-import pl.model.oneGameView;
 import pl.service.HttpWotLolInterface;
 import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.riotAndWargaming.HttpWargamingClient;
@@ -18,11 +18,29 @@ import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Created by kaima_000 on 2016-09-06.
+ * JavaApiDoGier - program służący do przedstawiania statystyk gracza
+ * Copyright (C) 19../20.. Bartłomiej Adamiak, Adam Szczeciński,
+ * Michał Kudlewski, Beata Cabaj
+ * <p>
+ * Niniejszy program jest wolnym oprogramowaniem; możesz go
+ * rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
+ * Licencji Publicznej GNU, wydanej przez Fundację Wolnego
+ * Oprogramowania - według wersji 2-giej tej Licencji lub którejś
+ * z późniejszych wersji.
+ * <p>
+ * Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
+ * użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
+ * gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
+ * ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna
+ * Licencja Publiczna GNU.
+ * <p>
+ * Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
+ * Powszechnej Licencji Publicznej GNU (GNU General Public License);
+ * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
+ * Cambridge, MA 02139, USA.
  */
 public enum Controller {
 
@@ -44,77 +62,80 @@ public enum Controller {
     @Qualifier("httpCSGOClient")
     HttpValveInterface httpL4D2Client;
 
+    @Getter
+    @Setter
     ObservableList<PieChart.Data> inGameHours = FXCollections.observableArrayList();
+
+    @Getter
+    @Setter
     ObservableList<PieChart.Data> matchesPlayed = FXCollections.observableArrayList();
 
-    public void setDefaultPieChartData(PieChart pieChart){
-        pieChart.setTitle("In game hours");
-        pieChart.setData(inGameHours);
+    public ObservableList<PieChart.Data> getDefaultData() {
+        return inGameHours;
     }
-    public void pieChartChanged(RadioMenuItem item, PieChart pieChart){
-        pieChart.setTitle(item.getText());
-        switch (item.getText()){
-            case("Matches played"):{
-                pieChart.setData(matchesPlayed);
-                break;
+
+    public ObservableList<PieChart.Data> pieChartChanged(String string) {
+        switch (string) {
+            case ("Matches played"): {
+                return matchesPlayed;
             }
-            case("Ingame hours"):{
-                pieChart.setData(inGameHours);
-                break;
+            case ("Ingame hours"): {
+                return inGameHours;
             }
         }
+        return matchesPlayed;
     }
 
-    private void updatePieChart(GamesEnum.Game game, Player player){
-        updateOneDataOfChart(game,player,inGameHours);
-        updateOneDataOfChart(game,player,matchesPlayed);
+    private void updatePieChart(GamesEnum.Game game, Player player) {
+        updateOneDataOfChart(game, player, inGameHours);
+        updateOneDataOfChart(game, player, matchesPlayed);
     }
 
-    private void updateOneDataOfChart(GamesEnum.Game game, Player player, ObservableList<PieChart.Data> list){
+    private void updateOneDataOfChart(GamesEnum.Game game, Player player, ObservableList<PieChart.Data> list) {
         double value = 0;
-        if(list == inGameHours) value = calculateInGameHours(game,player);
-        if(list == matchesPlayed) value = calculateMatchesPlayed(player);
+        if (list == inGameHours) value = calculateInGameHours(game, player);
+        if (list == matchesPlayed) value = calculateMatchesPlayed(player);
 
         boolean found = false;
-        for(PieChart.Data data:list){
-            if(Objects.equals(data.getName(), game.toString())){
+        for (PieChart.Data data : list) {
+            if (Objects.equals(data.getName(), game.toString())) {
                 data.setPieValue(value);
                 found = true;
             }
         }
-        if(!found) list.add(new PieChart.Data(game.toString(), value));
+        if (!found) list.add(new PieChart.Data(game.toString(), value));
     }
 
-    private double calculateMatchesPlayed(Player player){
-        return player.getLosses()+player.getWins();
+    private double calculateMatchesPlayed(Player player) {
+        return player.getLosses() + player.getWins();
     }
 
-    private double calculateInGameHours(GamesEnum.Game game, Player player){
+    private double calculateInGameHours(GamesEnum.Game game, Player player) {
         double time = 0;
-        switch (game){
+        switch (game) {
             case WoT: {
-                time = (player.getWins()+player.getLosses())*7/60;
+                time = (player.getWins() + player.getLosses()) * 7 / 60;
                 break;
             }
             case LoL: {
-                time = (player.getWins()+player.getLosses())*34/60;
+                time = (player.getWins() + player.getLosses()) * 34 / 60;
                 break;
             }
             case CSGO: {
-                time = (player.getWins()+player.getLosses())*42/60;
+                time = (player.getWins() + player.getLosses()) * 42 / 60;
                 break;
             }
-            case L4D2:  {
-                time = (player.getWins()+player.getLosses())*128/60;
+            case L4D2: {
+                time = (player.getWins() + player.getLosses()) * 128 / 60;
                 break;
             }
         }
         return time;
     }
 
-    public void calculatePlayerData(GamesEnum.Game game, String message, oneGameView oneGame) throws Exception {
+    public void calculatePlayerData(GamesEnum.Game game, String message, OneGameView oneGame) throws Exception {
         Player player = null;
-        switch (game){
+        switch (game) {
             case WoT: {
                 httpWargamingClient = new HttpWargamingClient();
                 httpWargamingClient.findPlayerByName(message);
@@ -133,7 +154,7 @@ public enum Controller {
                 player = httpCSGOClient.getPlayer();
                 break;
             }
-            case L4D2:  {
+            case L4D2: {
                 httpL4D2Client = new HttpL4D2Client();
                 httpL4D2Client.findPlayerById(message);
                 player = httpL4D2Client.getPlayer();
@@ -144,10 +165,10 @@ public enum Controller {
         oneGame.getPlayerLossesOutput().setText(player.getLosses().toString());
         oneGame.getPlayerWinsOutput().setText(player.getWins().toString());
         oneGame.getPlayerNameOutput().setText(player.getName());
-        updatePieChart(game,player);
+        updatePieChart(game, player);
     }
 
-    public void exceptionOccured(Exception e){
+    public void exceptionOccured(Exception e) {
         View.viewInstance.createPopUp(e.getMessage());
     }
 }

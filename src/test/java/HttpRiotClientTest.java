@@ -1,26 +1,39 @@
 /**
- * Created by QDL on 2016-09-04.
+ * JavaApiDoGier - program służący do przedstawiania statystyk gracza
+ * Copyright (C) 19../20.. Bartłomiej Adamiak, Adam Szczeciński,
+ * Michał Kudlewski, Beata Cabaj
+ * <p>
+ * Niniejszy program jest wolnym oprogramowaniem; możesz go
+ * rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
+ * Licencji Publicznej GNU, wydanej przez Fundację Wolnego
+ * Oprogramowania - według wersji 2-giej tej Licencji lub którejś
+ * z późniejszych wersji.
+ * <p>
+ * Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
+ * użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
+ * gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
+ * ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna
+ * Licencja Publiczna GNU.
+ * <p>
+ * Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
+ * Powszechnej Licencji Publicznej GNU (GNU General Public License);
+ * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
+ * Cambridge, MA 02139, USA.
  */
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.model.Player;
 import pl.service.riotAndWargaming.HttpRiotClient;
 
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HttpRiotClientTest
-{
+public class HttpRiotClientTest {
     @Spy
     private Player mockPlayer;
 
@@ -29,11 +42,8 @@ public class HttpRiotClientTest
     private HttpRiotClient testObject = new HttpRiotClient();
 
 
-
-
     @Test
-    public void testFindByName()
-    {
+    public void testFindByName() {
         Player testPlayer = null;
         try {
             testObject.findPlayerByName("SIPIAIM");
@@ -42,35 +52,11 @@ public class HttpRiotClientTest
             fail();
         }
 
-        assertEquals("SIPIAIM",testPlayer.getName());
+        assertEquals("SIPIAIM", testPlayer.getName());
 
-        assertEquals((Integer) 15,testPlayer.getWins());
-        assertEquals((Integer) 6,testPlayer.getLosses());
-        assertEquals((Integer) 147,testPlayer.getKills());
+        assertEquals((Integer) 15, testPlayer.getWins());
+        assertEquals((Integer) 6, testPlayer.getLosses());
+        assertEquals((Integer) 147, testPlayer.getKills());
     }
-
-    @Test
-    public void testGetKills()
-    {
-        JSONObject innerJSON = new JSONObject();
-        innerJSON.put("totalChampionKills",147);
-        innerJSON.put("totalMinionKills",2507);
-        innerJSON.put("totalAssists",180);
-        innerJSON.put("totalNeutralMinionsKilled",690);
-        innerJSON.put("totalTurretsKilled",28);
-
-        JSONObject mockObject = new JSONObject();
-        mockObject.put("wins","15");
-        mockObject.put("modifyDate","1448635784000");
-        mockObject.put("aggregatedStats",innerJSON);
-        mockObject.put("losses","6");
-        mockObject.put("playerStatSummaryType","RankedSolo5x5");
-
-        Integer testResult = testObject.getKills(mockObject);
-
-        assertEquals((Integer) 147,testResult);
-    }
-
-
 
 }
