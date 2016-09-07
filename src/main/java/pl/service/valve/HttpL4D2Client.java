@@ -3,7 +3,7 @@ package pl.service.valve;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * JavaApiDoGier - program służący do przedstawiania statystyk gracza
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-@Component
+@Service
 public class HttpL4D2Client extends HttpValveClient implements HttpValveInterface {
 
     final static Logger logger = Logger.getLogger(HttpL4D2Client.class);

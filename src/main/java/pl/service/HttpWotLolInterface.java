@@ -1,6 +1,5 @@
 package pl.service;
 
-import org.springframework.stereotype.Component;
 import pl.model.Player;
 
 /**
@@ -25,7 +24,6 @@ import pl.model.Player;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-@Component
 public interface HttpWotLolInterface {
     Player findPlayerByName(String name) throws Exception;
 

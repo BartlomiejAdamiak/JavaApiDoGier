@@ -2,7 +2,7 @@ package pl.service.riotAndWargaming;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.model.Player;
 import pl.service.HttpClient;
 
@@ -28,7 +28,7 @@ import pl.service.HttpClient;
  * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  * Cambridge, MA 02139, USA.
  */
-@Component
+@Service
 public abstract class HttpRiotAndWargaming extends HttpClient {
 
     final static Logger logger = Logger.getLogger(HttpRiotAndWargaming.class);

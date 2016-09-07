@@ -25,11 +25,11 @@ package pl.service.riotAndWargaming;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.control.Controller;
 import pl.service.HttpWotLolInterface;
 
-@Component
+@Service
 public class HttpWargamingClient extends HttpRiotAndWargaming implements HttpWotLolInterface {
 
     final static Logger logger = Logger.getLogger(HttpWargamingClient.class);
