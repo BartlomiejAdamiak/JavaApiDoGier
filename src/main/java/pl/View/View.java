@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import pl.controller.Controller;
 import org.aspectj.lang.annotation.Pointcut;
+<<<<<<< Updated upstream
+=======
+import pl.control.Controller;
+>>>>>>> Stashed changes
 import pl.model.GamesEnum;
 import pl.model.OneGameView;
 

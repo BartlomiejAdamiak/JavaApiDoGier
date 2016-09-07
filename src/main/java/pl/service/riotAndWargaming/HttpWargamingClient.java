@@ -25,8 +25,13 @@ package pl.service.riotAndWargaming;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+<<<<<<< Updated upstream
 import org.springframework.stereotype.Service;
 import pl.controller.Controller;
+=======
+import org.springframework.stereotype.Component;
+import pl.control.Controller;
+>>>>>>> Stashed changes
 import pl.service.HttpWotLolInterface;
 
 @Service

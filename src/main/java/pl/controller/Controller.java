@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream:src/main/java/pl/controller/Controller.java
 package pl.controller;
+=======
+package pl.control;
+>>>>>>> Stashed changes:src/main/java/pl/Control/Controller.java
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
