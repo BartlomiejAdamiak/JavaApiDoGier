@@ -8,26 +8,26 @@ import pl.Control.Controller;
 import pl.service.HttpWotLolInterface;
 
 /**
- JavaApiDoGier - program służący do przedstawiania statystyk gracza
- Copyright (C) 19../20.. Bartłomiej Adamiak, Adam Szczeciński,
- Michał Kudlewski, Beata Cabaj
-
- Niniejszy program jest wolnym oprogramowaniem; możesz go
- rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
- Licencji Publicznej GNU, wydanej przez Fundację Wolnego
- Oprogramowania - według wersji 2-giej tej Licencji lub którejś
- z późniejszych wersji.
-
- Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
- użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
- gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
- ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna
- Licencja Publiczna GNU.
-
- Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
- Powszechnej Licencji Publicznej GNU (GNU General Public License);
- jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
- Cambridge, MA 02139, USA.
+ * JavaApiDoGier - program służący do przedstawiania statystyk gracza
+ * Copyright (C) 19../20.. Bartłomiej Adamiak, Adam Szczeciński,
+ * Michał Kudlewski, Beata Cabaj
+ * <p>
+ * Niniejszy program jest wolnym oprogramowaniem; możesz go
+ * rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
+ * Licencji Publicznej GNU, wydanej przez Fundację Wolnego
+ * Oprogramowania - według wersji 2-giej tej Licencji lub którejś
+ * z późniejszych wersji.
+ * <p>
+ * Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
+ * użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
+ * gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
+ * ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna
+ * Licencja Publiczna GNU.
+ * <p>
+ * Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
+ * Powszechnej Licencji Publicznej GNU (GNU General Public License);
+ * jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
+ * Cambridge, MA 02139, USA.
  */
 @Component
 public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolInterface {
@@ -38,7 +38,7 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
     private final static String API_URL_GET_STATISTICS_BY_ID_PART_1 = "https://eune.api.pvp.net/api/lol/eune/v1.3/stats/by-summoner/";
     private final static String API_URL_GET_STATISTICS_BY_ID_PART_2 = "/summary?season=SEASON2015&api_key=RGAPI-1C2FC95A-EA14-425B-BBC6-B99DFCDA3F7D";
 
-    public HttpRiotClient(String playerName){
+    public HttpRiotClient(String playerName) {
         findPlayerByName(playerName);
     }
 
@@ -47,17 +47,17 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
     }
 
     public String getPlayerId(String name) {
-        try{
+        try {
             JSONObject obj = sendUrlAndGetJSON(API_URL_GET_PLAYER_ID_PART_1 + name + API_URL_GET_PLAYER_ID_PART_2);
             JSONObject innerObj = (JSONObject) obj.get(name.toLowerCase());
             return innerObj.get("id").toString();
-        }catch(Exception e){
+        } catch (Exception e) {
             logger.error("Exception at getPlayerId(String): " + e);
         }
         return null;
     }
 
-    protected JSONObject getJSONStatisticsOfPlayerById(String id){
+    protected JSONObject getJSONStatisticsOfPlayerById(String id) {
         JSONObject obj;
         try {
             obj = sendUrlAndGetJSON(API_URL_GET_STATISTICS_BY_ID_PART_1 + id + API_URL_GET_STATISTICS_BY_ID_PART_2);
