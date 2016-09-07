@@ -33,7 +33,7 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
             JSONObject innerObj = (JSONObject) obj.get(name.toLowerCase());
             return innerObj.get("id").toString();
         }catch(Exception e){
-            logger.debug("Exception at getPlayerId(String): " + e);
+            logger.error("Exception at getPlayerId(String): " + e);
             //Controller.controllerInstance.exceptionOccured(e);
         }
         return null;
@@ -54,7 +54,7 @@ public class HttpRiotClient extends HttpRiotAndWargaming implements HttpWotLolIn
             }
             return findRanked5x5;
         } catch (Exception e) {
-            logger.debug("Exception at getJSONStatisticsOfPlayerById(String): " + e);
+            logger.error("Exception at getJSONStatisticsOfPlayerById(String): " + e);
             Controller.controllerInstance.exceptionOccured(e);
         }
         return null;

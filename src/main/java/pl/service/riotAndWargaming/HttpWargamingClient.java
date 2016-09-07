@@ -33,7 +33,7 @@ public class HttpWargamingClient extends HttpRiotAndWargaming implements HttpWot
             JSONObject firstObjectOfArray = (JSONObject) data.get(0);
             return firstObjectOfArray.get("account_id").toString();
         } catch (Exception e) {
-            logger.debug("Exception at getPlayerId(String): " + e);
+            logger.error("Exception at getPlayerId(String): " + e);
             //Controller.controllerInstance.exceptionOccured(e);
         }
         return null;
@@ -49,7 +49,7 @@ public class HttpWargamingClient extends HttpRiotAndWargaming implements HttpWot
             JSONObject all = (JSONObject) statistics.get("all");
             return all;
         } catch (Exception e) {
-            logger.debug("Exception at getJSONStatisticsOfPlayerById(String): " + e);
+            logger.error("Exception at getJSONStatisticsOfPlayerById(String): " + e);
             Controller.controllerInstance.exceptionOccured(e);
         }
         return null;

@@ -39,7 +39,7 @@ public class HttpCSGOClient extends HttpValveClient implements HttpValveInterfac
 
             return statsToReturn;
         } catch (Exception e) {
-            logger.debug("Exception at getJSONStatisticsOfPlayerById(String): " + e);
+            logger.error("Exception at getJSONStatisticsOfPlayerById(String): " + e);
             //Controller.controllerInstance.exceptionOccured(e);
         }
 

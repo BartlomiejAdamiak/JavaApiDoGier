@@ -50,7 +50,10 @@ public class HttpClient{
 
         int responseCode;
         responseCode = con.getResponseCode();
-        if (responseCode != 200) throw new Exception("Response failed");
+        if (responseCode != 200){
+            logger.debug("Response failed, responseCode != 200");
+            throw new Exception("Response failed");
+        }
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -81,14 +84,19 @@ public class HttpClient{
         try {
             response = sendGet(url);
         } catch (Exception e) {
+            logger.error("Exception at sendUrlAndGetJSON(String): " + e);
             throw e;
         }
-        if (response.equals("Response failed")) return null;
+        if (response.equals("Response failed")){
+            logger.debug("Response failed at: sendUrlAndGetJSON(String), returning null.");
+            return null;
+        }
         JSONParser parser = new JSONParser();
         JSONObject obj = new JSONObject();
         try {
             obj = (JSONObject) parser.parse(response);
         } catch (ParseException e) {
+            logger.error("Exception at sendUrlAndGetJSON(String): " + e);
             throw e;
         }
         return obj;

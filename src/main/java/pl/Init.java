@@ -3,6 +3,7 @@ package pl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import pl.configuration.MyConfig;
  * Created by kaima_000 on 2016-06-09.
  */
 @Service
-public class Init extends Application /*implements EventHandler<ActionEvent>*/{
+public class Init extends Application {
 
     final static Logger logger = Logger.getLogger(Init.class);
 

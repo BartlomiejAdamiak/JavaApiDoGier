@@ -38,13 +38,4 @@ public class Player {
         this.name = name;
     }
 
-
-
-    /*public Player(Integer id, String name, Integer kills, Integer wins, Integer losses) {
-        this.id = id;
-        this.name = name;
-        this.kills = kills;
-        this.wins = wins;
-        this.losses = losses;
-    }*/
 }

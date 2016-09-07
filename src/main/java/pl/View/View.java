@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
+import org.aspectj.lang.annotation.Pointcut;
 import pl.control.Controller;
 import pl.model.GamesEnum;
 import pl.model.oneGameView;
@@ -18,6 +20,8 @@ import pl.model.oneGameView;
 public enum View {
 
     viewInstance;
+
+    private final static Logger logger = Logger.getLogger(View.class);
 
     @FXML
     PieChart pieChart;
@@ -57,7 +61,6 @@ public enum View {
     }
 
     private Menu prepareRadioMenu(){
-        //Difficulty RadioMenuItems
         Menu pieChartMenu = new Menu("Chart options");
         ToggleGroup optionsToggle = new ToggleGroup();
 
@@ -73,6 +76,7 @@ public enum View {
         return pieChartMenu;
     }
 
+    @Pointcut("execution(* pl.View.View.prepareLayout(..))")
     public VBox prepareLayout(GamesEnum.Game game, String customInput){
         Label playerInputLabel = new Label(GamesEnum.Game.getFullName(game));
         TextField playerInput = new TextField(customInput);
@@ -100,6 +104,7 @@ public enum View {
             try {
                 Controller.controllerInstance.calculatePlayerData(game, playerInput.getText(),gameView);
             } catch (Exception e1) {
+                logger.error("Exception at prepareLayout(GamesEnum.Game, String): " + e1);
                 createPopUp(e.toString());
             }
         });
