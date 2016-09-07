@@ -10,9 +10,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.context.ApplicationListener;
 import pl.Control.Controller;
+import pl.model.EventPlayerNotFound;
 import pl.model.GamesEnum;
-import pl.model.oneGameView;
+import pl.model.OneGameView;
 
 /**
  JavaApiDoGier - program służący do przedstawiania statystyk gracza
@@ -70,7 +72,12 @@ public enum View {
 
     private void preparePieChart(){
         pieChart = new PieChart();
-        Controller.controllerInstance.setDefaultPieChartData(pieChart);
+        setDefaultPieChartData();
+    }
+
+    public void setDefaultPieChartData(){
+        pieChart.setTitle("In game hours");
+        pieChart.setData(Controller.controllerInstance.getDefaultData());
     }
 
     private MenuBar prepareMenuBar(){
@@ -84,15 +91,25 @@ public enum View {
         ToggleGroup optionsToggle = new ToggleGroup();
 
         RadioMenuItem firstOpt = new RadioMenuItem("Ingame hours");
-        firstOpt.setOnAction(e -> Controller.controllerInstance.pieChartChanged(firstOpt,pieChart));
+        firstOpt.setOnAction(e -> {
+            changePieData(firstOpt);
+
+        });
         RadioMenuItem secondOpt = new RadioMenuItem("Matches played");
-        secondOpt.setOnAction(e -> Controller.controllerInstance.pieChartChanged(secondOpt,pieChart));
+        secondOpt.setOnAction(e -> {
+            changePieData(secondOpt);
+        });
 
         firstOpt.setToggleGroup(optionsToggle);
         secondOpt.setToggleGroup(optionsToggle);
 
         pieChartMenu.getItems().addAll(firstOpt, secondOpt);
         return pieChartMenu;
+    }
+
+    private void changePieData(RadioMenuItem radioMenuItem){
+        pieChart.setData(Controller.controllerInstance.pieChartChanged(radioMenuItem.getText()));
+        pieChart.setTitle(radioMenuItem.getText());
     }
 
     @Pointcut("execution(* pl.View.View.prepareLayout(..))")
@@ -116,7 +133,7 @@ public enum View {
         TextField playerNameOutput = new TextField();
         playerNameOutput.setDisable(true);
 
-        oneGameView gameView = new oneGameView(playerKillsOutput,playerLossesOutput,playerWinsOutput,playerNameOutput);
+        OneGameView gameView = new OneGameView(playerKillsOutput,playerLossesOutput,playerWinsOutput,playerNameOutput);
 
         Button buttonCalculatePlayer = new Button("Calculate");
         buttonCalculatePlayer.setOnAction(e -> {

@@ -3,13 +3,16 @@ package pl.Control;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.RadioMenuItem;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import pl.View.View;
+import pl.model.EventPlayerNotFound;
 import pl.model.GamesEnum;
 import pl.model.Player;
-import pl.model.oneGameView;
+import pl.model.OneGameView;
 import pl.service.HttpWotLolInterface;
 import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.riotAndWargaming.HttpWargamingClient;
@@ -17,7 +20,9 @@ import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpL4D2Client;
 import pl.service.valve.HttpValveInterface;
 
+import java.awt.*;
 import java.util.Objects;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  JavaApiDoGier - program służący do przedstawiania statystyk gracza
@@ -61,25 +66,27 @@ public enum Controller {
     @Qualifier("httpCSGOClient")
     HttpValveInterface httpL4D2Client;
 
+    @Getter
+    @Setter
     ObservableList<PieChart.Data> inGameHours = FXCollections.observableArrayList();
+
+    @Getter
+    @Setter
     ObservableList<PieChart.Data> matchesPlayed = FXCollections.observableArrayList();
 
-    public void setDefaultPieChartData(PieChart pieChart){
-        pieChart.setTitle("In game hours");
-        pieChart.setData(inGameHours);
+    public ObservableList<PieChart.Data> getDefaultData(){
+        return inGameHours;
     }
-    public void pieChartChanged(RadioMenuItem item, PieChart pieChart){
-        pieChart.setTitle(item.getText());
-        switch (item.getText()){
+    public ObservableList<PieChart.Data> pieChartChanged(String string){
+        switch (string){
             case("Matches played"):{
-                pieChart.setData(matchesPlayed);
-                break;
+                return matchesPlayed;
             }
             case("Ingame hours"):{
-                pieChart.setData(inGameHours);
-                break;
+                return inGameHours;
             }
         }
+        return matchesPlayed;
     }
 
     private void updatePieChart(GamesEnum.Game game, Player player){
@@ -129,7 +136,7 @@ public enum Controller {
         return time;
     }
 
-    public void calculatePlayerData(GamesEnum.Game game, String message, oneGameView oneGame) throws Exception {
+    public void calculatePlayerData(GamesEnum.Game game, String message, OneGameView oneGame) throws Exception {
         Player player = null;
         switch (game){
             case WoT: {

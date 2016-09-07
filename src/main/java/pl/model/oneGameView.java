@@ -26,7 +26,7 @@ import lombok.Setter;
  jeśli nie - napisz do Free Software Foundation, Inc., 675 Mass Ave,
  Cambridge, MA 02139, USA.
  */
-public class oneGameView {
+public class OneGameView {
     @Getter
     @Setter
     GamesEnum.Game game;
@@ -43,7 +43,7 @@ public class oneGameView {
     @Setter
     TextField playerNameOutput;
 
-    public oneGameView(TextField playerKillsOutput,TextField playerLossesOutput,TextField playerWinsOutput,TextField playerNameOutput) {
+    public OneGameView(TextField playerKillsOutput, TextField playerLossesOutput, TextField playerWinsOutput, TextField playerNameOutput) {
         this.playerKillsOutput = playerKillsOutput;
         this.playerLossesOutput = playerLossesOutput;
         this.playerWinsOutput = playerWinsOutput;
