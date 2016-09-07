@@ -27,7 +27,7 @@ import pl.model.Player;
  */
 @Component
 public interface HttpWotLolInterface {
-    void findPlayerByName(String name) throws Exception;
+    Player findPlayerByName(String name) throws Exception;
     Player getPlayer();
     void setPlayer(Player player);
 }

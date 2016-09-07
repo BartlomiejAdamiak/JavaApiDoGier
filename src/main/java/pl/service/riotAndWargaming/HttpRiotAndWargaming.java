@@ -33,11 +33,13 @@ public abstract class HttpRiotAndWargaming extends HttpClient{
 
     final static Logger logger = Logger.getLogger(HttpRiotAndWargaming.class);
 
-    public void findPlayerByName(String name) {
+    public Player findPlayerByName(String name) {
         player = new Player();
         player.setName(name);
         player.setId(getPlayerId(name));
         if(!(player.getId()==null)) getStatistics(player);
+
+        return player;
     }
 
     private void getStatistics(Player player){

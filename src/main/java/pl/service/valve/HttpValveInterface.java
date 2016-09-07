@@ -25,7 +25,7 @@ import pl.model.Player;
  Cambridge, MA 02139, USA.
  */
 public interface HttpValveInterface {
-    void findPlayerById(String playerId) throws Exception;
+    Player findPlayerById(String playerId) throws Exception;
     Player getPlayer();
     void setPlayer(Player player);
 }

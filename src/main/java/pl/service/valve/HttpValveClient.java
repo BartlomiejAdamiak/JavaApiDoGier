@@ -37,7 +37,7 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
     public HttpValveClient() {
     }
 
-    public void findPlayerById(String playerId) throws Exception {
+    public Player findPlayerById(String playerId) throws Exception {
         player = new Player();
         JSONObject statistics = getJSONStatisticsOfPlayerById(playerId);
         player.setId(playerId);
@@ -45,6 +45,8 @@ public abstract class HttpValveClient extends HttpClient implements HttpValveInt
         player.setKills(getKills(statistics));
         player.setWins(getWins(statistics));
         player.setLosses(getLosses(statistics));
+
+        return player;
     }
 
     public String getName(String playerId) throws Exception {
