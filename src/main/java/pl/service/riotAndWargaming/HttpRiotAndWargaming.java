@@ -42,7 +42,7 @@ public abstract class HttpRiotAndWargaming extends HttpClient {
         return player;
     }
 
-    private void getStatistics(Player player) {
+    public void getStatistics(Player player) {
         JSONObject statistics = getJSONStatisticsOfPlayerById(player.getId());
         player.setKills(getKills(statistics));
         player.setWins(getWins(statistics));

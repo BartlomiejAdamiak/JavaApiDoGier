@@ -21,8 +21,22 @@
  * Cambridge, MA 02139, USA.
  */
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import pl.model.Player;
+import pl.service.riotAndWargaming.HttpRiotClient;
+import pl.service.riotAndWargaming.HttpWargamingClient;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
+
+
+@RunWith(MockitoJUnitRunner.class)
 public class TestHttpWargamingClient {
 
 
@@ -32,34 +46,95 @@ public class TestHttpWargamingClient {
 //        statistics.put("wins",86);
 //        statistics.put("losses",94);
 //    }
-    @Test
-    public void successFindPlayerByName() {
-        // TO FIX LATER
-//        JSONObject statistics = new JSONObject();
-//        statistics.put("frags",67);
-//        statistics.put("wins",86);
-//        statistics.put("losses",94);
-//        //pl.service.wargaming.HttpWargamingClient wot = new pl.service.wargaming.HttpWargamingClient("kaimada");
-//        pl.service.wargaming.HttpWargamingClient c = mock(pl.service.wargaming.HttpWargamingClient.class);
-//        when(c.getJSONStatisticsOfPlayerById(anyInt())).thenReturn(statistics);
-//        when(c.getStatistics(anyObject())).thenCallRealMethod();
-//        when(c.findPlayer(anyString(),anyString())).thenCallRealMethod();
-//        when(c.getJSONStatisticsOfPlayerById(anyInt())).thenCallRealMethod();
-//        when(c.parseToJSONObject(anyString())).thenCallRealMethod();
-//        when(c.findPlayerByName(anyString())).thenCallRealMethod();
-//        when(c.getKills(any(JSONObject.class))).thenCallRealMethod();
-//        when(c.getWins(any(JSONObject.class))).thenCallRealMethod();
-//        when(c.getLosses(any(JSONObject.class))).thenCallRealMethod();
-//        //c.player = mock(pl.players.WorldOfTanksPlayer.class);
-//        c.findPlayerByName("kaimada");
-//        System.out.println(c.player);
-//
-//        pl.players.PlayerInterface player = c.player;
-//        assertEquals(player.getId(),(Integer) 502346805);
-//        assertEquals(player.getName(),(String) "kaimada");
-//        assertEquals(player.getKills(),(Integer) 67);
-//        assertEquals(player.getWins(),(Integer) 86);
-//        assertEquals(player.getLosses(),(Integer) 94);
 
+    private HttpWargamingClient warClient = new HttpWargamingClient();
+
+
+    @Test
+    public void TestFindPlayerByName()
+    {
+        Player testPlayer = null;
+        try {
+            warClient.findPlayerByName("kaimada");
+            testPlayer = warClient.player;
+        } catch (Exception e) {
+            fail();
+        }
+
+
+        assertEquals( "502346805", testPlayer.getId());
+        assertEquals( "kaimada", testPlayer.getName());
+        assertEquals( (Integer) 67, testPlayer.getKills());
+        assertEquals( (Integer) 86, testPlayer.getWins());
+        assertEquals( (Integer) 94, testPlayer.getLosses());
     }
+
+    @Test
+    public void testGetKills()
+    {
+        JSONObject mockObject = new JSONObject();
+        mockObject.put("frags","67");
+
+        Integer testResult = warClient.getKills(mockObject);
+
+        assertEquals((Integer) 67,testResult);
+    }
+
+    @Test
+    public void testGetJSONStatisticsOfPlayerById()
+    {
+        JSONObject firstJSON = new JSONObject();
+            JSONObject innerJSON = new JSONObject();
+                JSONObject innerInnerJSON = new JSONObject();
+                    JSONObject innermostJSON = new JSONObject();
+            innerJSON.put("private",null);
+            innerJSON.put("ban_time",null);
+            innerJSON.put("created_at",1328554689);
+            innerJSON.put("client_language","pl");
+            innerJSON.put("ban_info",null);
+            innerJSON.put("account_id",502346805);
+            innerJSON.put("updated_at",1466640375);
+            innerJSON.put("nickname","kaimada");
+            innerJSON.put("clan_id",null);
+            innerJSON.put("last_battle_time",1432139385);
+            innerJSON.put("global_rating",775);
+            innerJSON.put("logout_at",1432139474);
+                    innermostJSON.put("losses",94);
+                    innermostJSON.put("frags",67);
+                    innermostJSON.put("wins",67);
+                innerInnerJSON.put("all",innermostJSON);
+            innerJSON.put("statistics",innerInnerJSON);
+        firstJSON.put("502346805",innerJSON);
+
+
+        JSONObject secondJSON = new JSONObject();
+
+        JSONArray array = new JSONArray();
+
+        JSONObject topObject = new JSONObject();
+        topObject.put("data",firstJSON);
+        topObject.put("meta",secondJSON);
+        topObject.put("status","ok");
+
+        HttpWargamingClient spy = Mockito.spy(HttpWargamingClient.class);
+
+        try
+        {
+            when(spy.sendUrlAndGetJSON("https://api.worldoftanks.eu/wot/account/info/?application_id=demo&account_id=" +
+                    "502346805")).thenReturn(topObject);
+        }
+        catch(Exception e){
+            fail();
+        }
+
+
+
+        JSONObject returnObject = spy.getJSONStatisticsOfPlayerById("502346805");
+
+        assertEquals((Integer) 67,returnObject.get("wins"));
+        assertEquals((Integer) 94,returnObject.get("losses"));
+        assertEquals((Integer) 67,returnObject.get("frags"));
+    }
+
+
 }

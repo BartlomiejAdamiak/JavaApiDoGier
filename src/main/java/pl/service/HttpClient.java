@@ -40,7 +40,6 @@ import java.net.URL;
 public class HttpClient {
     final static Logger logger = Logger.getLogger(HttpClient.class);
     private final String USER_AGENT = "Mozilla/5.0";
-    final static Logger logger = Logger.getLogger(HttpClient.class);
 
     @Autowired
     public Player player;
@@ -101,7 +100,7 @@ public class HttpClient {
         return Integer.parseInt(statistics.get("losses").toString());
     }
 
-    protected JSONObject sendUrlAndGetJSON(String url) throws Exception {
+    public JSONObject sendUrlAndGetJSON(String url) throws Exception {
         String response;
         try {
             response = sendGet(url);
