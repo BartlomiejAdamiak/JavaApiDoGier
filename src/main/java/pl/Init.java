@@ -3,6 +3,9 @@ package pl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
@@ -32,12 +35,16 @@ import pl.configuration.MyConfig;
  * Cambridge, MA 02139, USA.
  */
 @Service
+@Aspect
 public class Init extends Application {
 
     final static Logger logger = Logger.getLogger(Init.class);
 
     public static void main(String[] args) throws Exception {
         logger.info("\nSTART!\n");
+
+        //TODO: usunąć, jeśli nic nie zadziała.
+        printSth();
 
         ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
 
@@ -56,5 +63,9 @@ public class Init extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         View.viewInstance.prepareView(primaryStage);
+    }
+
+    public static void printSth(){
+        System.out.println("Example text for printSth method. Let's check AspectLogger.");
     }
 }

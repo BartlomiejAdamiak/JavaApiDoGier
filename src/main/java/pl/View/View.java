@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.Pointcut;
-import pl.Control.Controller;
+import pl.control.Controller;
 import pl.model.GamesEnum;
 import pl.model.OneGameView;
 
@@ -110,7 +110,6 @@ public enum View {
         pieChart.setTitle(radioMenuItem.getText());
     }
 
-    @Pointcut("execution(* pl.View.View.prepareLayout(..))")
     public VBox prepareLayout(GamesEnum.Game game, String customInput) {
         Label playerInputLabel = new Label(GamesEnum.Game.getFullName(game));
         TextField playerInput = new TextField(customInput);

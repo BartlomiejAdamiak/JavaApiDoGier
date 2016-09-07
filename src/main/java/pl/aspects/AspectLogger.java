@@ -36,18 +36,23 @@ import org.springframework.stereotype.Component;
 public class AspectLogger {
     Logger logger = Logger.getLogger(AspectLogger.class);
 
-    @Pointcut("execution(* pl.View.View.prepareLayout(..))")
-    public void prepareLayout() {
+    @Before("execution(* pl.Init.printSth(..))")
+    public void logBeforePrintSth(JoinPoint joinPoint) {
+        logger.debug("AspectLogger working! Wow! \n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                " some space logger");
+        System.out.println("AspectLogger working! Wow! \n\n\n\n\n\n\n\n some space");
     }
 
-
-    @Before("prepareLayout()")
-    public void logBeforePrepareLayout(JoinPoint joinPoint) {
-        logger.error("Called method " + joinPoint.getSignature().getName() + "LALALALA");
-    }
-
-    @After("prepareLayout()")
-    public void logAfterPrepareLayout(JoinPoint joinPoint) {
-        logger.error("Finished method " + joinPoint.getSignature().getName() + ".");
+    @After("execution(* pl.Init.printSth(..))")
+    public void logAfterPrintSth(JoinPoint joinPoint) {
+        logger.debug("AspectLogger working! After method printSth from Init.java\n\n\n\n\n\n\n logger");
+        System.out.println("AspectLogger working! After method printSth from Init.java\n\n\n\n\n\n\n");
     }
 }
