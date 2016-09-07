@@ -41,7 +41,7 @@ public class TestHttpValveClient {
             fail();
         }
         assertEquals(player.getName(), "kaimada");
-        assertEquals(player.getKills(), (Integer) 58642);
+        assertEquals(player.getKills(), (Integer) 58661);
         assertEquals(player.getWins(), (Integer) 1420);
         assertEquals(player.getLosses(), (Integer) 1673);
     }
