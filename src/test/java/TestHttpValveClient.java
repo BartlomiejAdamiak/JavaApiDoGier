@@ -3,7 +3,6 @@ import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.mockito.Mockito;
 import pl.model.Player;
-import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.valve.HttpCSGOClient;
 import pl.service.valve.HttpValveClient;
 
@@ -103,9 +102,7 @@ public class TestHttpValveClient {
         catch(Exception e){
             fail();
         }
-
-
-        //76561197968656365
+        
         JSONObject returnObject = spy.getJSONStatisticsOfPlayerById("76561197968656365");
 
         assertEquals(12411L,returnObject.get("kills"));

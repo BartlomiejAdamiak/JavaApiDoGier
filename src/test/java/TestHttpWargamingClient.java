@@ -28,7 +28,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.model.Player;
-import pl.service.riotAndWargaming.HttpRiotClient;
 import pl.service.riotAndWargaming.HttpWargamingClient;
 
 import static org.junit.Assert.assertEquals;
@@ -40,12 +39,6 @@ import static org.mockito.Mockito.when;
 public class TestHttpWargamingClient {
 
 
-    //    @Before
-//    public void prepareStatistics(){
-//        statistics.put("frags",67);
-//        statistics.put("wins",86);
-//        statistics.put("losses",94);
-//    }
 
     private HttpWargamingClient warClient = new HttpWargamingClient();
 

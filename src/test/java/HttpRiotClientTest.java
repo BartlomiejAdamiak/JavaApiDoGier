@@ -153,7 +153,6 @@ public class HttpRiotClientTest {
         when(spy.getJSONStatisticsOfPlayerById("19940663")).thenReturn(mockObject);
 
         Player testPlayer = new Player();
-        //testPlayer.setName("SIPIAIM");
         testPlayer.setId("19940663");
         spy.getStatistics(testPlayer);
 

@@ -41,16 +41,9 @@ public class MockAutowireTest {
     private HttpWargamingClient testObject = new HttpWargamingClient();
 
 
-//    @Before
-//    public void initMocs(){
-//        MockitoAnnotations.initMocks(this);
-//    }
 
     @Test
     public void testAutowire() {
-
-//        HttpWargamingClient testObject = new HttpWargamingClient("kaimada");
-        //HttpWargamingClient testObject = new HttpWargamingClient();
         assertNotNull(testObject);
         assertNotNull(testObject.player);
     }
